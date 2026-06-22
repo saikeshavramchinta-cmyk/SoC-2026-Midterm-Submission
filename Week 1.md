@@ -126,3 +126,34 @@ Assuming the errors are independent:
 Var($z_t$) = Var($\varepsilon_t - \varepsilon_{t-1}$) = $2\sigma^2$
 
 Hence, using first differencing, this series is stationary.
+
+## 4.How to check Stationarity of a time series?
+
+There are a number of ways to test if your time series is stationary:
+
+1. **Unit Root Tests**: Tests like the Augmented Dickey-Fuller (ADF) and Zivot-Andrews are used to see if the series has a unit root, which is a red flag for non-stationarity.
+2. **KPSS Test**: This test works a bit differently - it checks if the series is stationary around a trend or needs differencing to become stationary.
+3. **Run Sequence Plots**: A simple but effective visual method. These plots show the data over time and help spot trends or seasonal patterns.
+4. **Less Common Tests**: There are more advanced methods like the Priestley-Subba Rao test or wavelet-based techniques, which are used in more specialised scenarios.
+## 5. Methods to make a time series stationary
+1. **Differencing (Fixes Shifting Mean) -** 
+
+Tracks the **change** between periods to strip out stochastic trends (random walks).
+
+- First-Order: $Y_t = X_t - X_{t-1}$ (removes linear trends)
+- Second-Order: $Y't = Y_t - Y{t-1}$ (removes quadratic trends)
+- Seasonal: $Y_t = X_t - X_{t-m}$ (removes cycles of period $m$, e.g., $m=12$)
+
+2. **Detrending (Fixes Deterministic trends) -**
+
+Used if data reverts to a predictable, constant path. Fit a trend line via regression and extract the stationary residuals:
+                                     $Y_t = X_t - (\beta_0 + \beta_1 t)$
+
+**Rule:** Use detrending for deterministic trends; use differencing for random walks.
+
+3. **Log / Square Root Transformations (Fixes Changing Variance) -** 
+
+Stabilizes **heteroscedasticity** (volatility that expands as the series value grows). *Apply before differencing.*
+
+• **Log ( $\ln(X_t)$ ):** Flattens exponential growth and multiplicative variance.
+• **Square Root ($\sqrt{X_t}$ ):** Stabilizes variance that scales proportionally to the mean.
