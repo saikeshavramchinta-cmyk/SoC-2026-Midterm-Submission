@@ -9,7 +9,7 @@ Unlike standard cross-sectional data, time-series observations are inherently de
 
 Most financial data naturally appears as a time series. Stock prices, returns, volatility, interest rates, trading volume, and exchange rates all evolve over time.
 
-Time series analysis helps answer some of the most important questions in quantitative finance:
+Time series analysis helps ans some of the most important questions in quantitative finance:
 
 - How will a variable behave in the future?
 - Is there an underlying trend or seasonal pattern?
@@ -34,7 +34,7 @@ A **deterministic trend** is a trend that changes at a constant, perfectly predi
 
 A **stochastic trend** is a trend driven by random steps where the direction can shift unpredictably at any moment. "Stochastic" is just a fancy statistics word for "random."
 
-**Example:** Stock market prices. Today's price is the baseline for tomorrow. If bad news drops a stock by 10% today, tomorrow's trading starts from that lower price.
+**Example:** Stock market prices. Today's price is the baseline for tomorrow. If bad news drops a stock by 10% today, tomorrow's trading starts from that lo price.
 ## 2.3 Seasonality
 
 Time series may follow recurring patterns at fixed intervals, such as daily, weekly, or yearly, due to seasonal effects.
@@ -45,8 +45,8 @@ Time series may follow recurring patterns at fixed intervals, such as daily, wee
 
 #### The Major Difference
 
-- **Seasonality** happens at **fixed, predictable intervals within a year** (e.g., ice cream sales spiking every summer). we can circle the exact time it will happen on a calendar.
-- **Cyclical behavior** happens over **unpredictable, varying lengths of time across multiple years** (e.g., an economic recession or housing market crash). we know it will happen eventually, but we cannot predict the exact year or duration.
+- **Seasonality** happens at **fixed, predictable intervals within a year** (e.g., ice cream sales spiking every summer). We can circle the exact time it will happen on a calendar.
+- **Cyclical behavior** happens over **unpredictable, varying lengths of time across multiple years** (e.g., an economic recession or housing market crash). We know it will happen eventually, but we cannot predict the exact year or duration.
 
 ## 2.5 Volatility
 
@@ -132,7 +132,7 @@ Hence, using first differencing, this series is stationary.
 
 ## 4.How to check Stationarity of a time series?
 
-There are a number of ways to test if wer time series is stationary:
+There are a number of ways to test if our time series is stationary:
 
 1. **Unit Root Tests**: Tests like the Augmented Dickey-Fuller (ADF) and Zivot-Andrews are used to see if the series has a unit root, which is a red flag for non-stationarity.
 2. **KPSS Test**: This test works a bit differently - it checks if the series is stationary around a trend or needs differencing to become stationary.
@@ -241,7 +241,7 @@ Tests like the Augmented Dickey-Fuller (ADF) and Zivot-Andrews are used to see i
 
 A unit root is a characteristic of a time series that makes it **non-stationary**.
 
-When a time series has a unit root, it means its statistical properties (like variance) change over time. This is a problem because standard time series models (like AR, MA, ARMA) require the data to be stationary to make reliable predictions. If you model a non-stationary series without transforming it first, your results will likely be flawed.
+When a time series has a unit root, it means its statistical properties (like variance) change over time. This is a problem because standard time series models (like AR, MA, ARMA) require the data to be stationary to make reliable predictions. If we model a non-stationary series without transforming it first, our results will likely be flawed.
 
 ## Example!
 
@@ -334,10 +334,22 @@ The series is trending.
 While the Hurst Exponent provides a measurement, the Variance Ratio is often used as a formal statistical test (often associated with Lo and MacKinlay's 1988 paper, as noted in the book). It allows quants to generate a test statistic and $p$-value to determine if they can confidently reject the random walk hypothesis. 
 ## 5. The Half-Life of Mean Reversion
 Identifying a stationary series is useless if it takes a decade for the price to revert to its mean. We need to calculate the half-life—the expected time it takes for the price to return exactly halfway to its historical average.This book uses the continuous-time Ornstein-Uhlenbeck process to model this. By running a linear regression of the price changes against the lagged prices, we find the slope/coefficient ($\lambda$). We then plug $\lambda$ into the half-life formula:
-  ### $t_{1/2}$ = $\frac{-\ln(2)}{\lambda}$
+ ### $t_{1/2}$ = $\frac{-\ln(2)}{\lambda}$
 ### Why it is crucial:
 The half-life dictates our holding period. If $t_{1/2}$ is 5 days, it is a highly actionable strategy. If $t_{1/2}$ is 250 days, the capital requirement and opportunity cost are too high, and the structural "regime" of the market will likely change before we can exit the trade profitably.
-## 6. Creating Stationarity using Cointegration
+## 6. A Linear Mean Reverting Trading Strategy
+A linear mean-reverting strategy capitalizes on the tendency of a specific asset's price to return to its historical average over time. To execute this profitably, two foundational conditions must be met:
+The price series must be demonstrably mean-reverting (stationary).The half-life of this mean reversion must be shorter than our required trading horizon.Once these conditions are satisfied, the trading mechanics follow a straightforward, linear set of rules.Calculating the SignalThe strategy relies on calculating the normalized deviation of the asset's current price from its moving average. This is effectively a Z-score, which measures how many standard deviations the current price is from the mean:
+## $$\text{Normalized Deviation} = \frac{P_t - \mu}{\sigma}$$
+### $P_t$ = Current Price
+### $\mu$ = Moving Average over the look-back period
+### $\sigma$ = Moving Standard Deviation over the look-back period
+## Capital Allocation:
+The number of units held in the asset should be negatively proportional to the normalized deviation. If the price spikes two standard deviations above the mean, we take a proportionately large short position. As the price falls back toward the mean, we scale out of the short.
+## The Look-back Period:
+The window used to calculate both the moving average ($\mu$) and the moving standard deviation ($\sigma$) is typically set equal to the calculated half-life of the asset's mean reversion.
+
+## 7. Creating Stationarity using Cointegration
 Because individual stocks are non-stationary, quants engineer their own stationary series using a concept called Cointegration.
 ### Cointegration:
 Cointegration occurs when two or more non-stationary time series (random walks) can be combined linearly to create a new, perfectly stationary time series.
@@ -345,7 +357,7 @@ Cointegration occurs when two or more non-stationary time series (random walks) 
 Stock A and Stock B might both be wandering aimlessly. But if we calculate Stock A - (Hedge Ratio * Stock B), that resulting spread might be perfectly flat and stationary over time.
 ## Correlation vs. Cointegration:
 Correlation means two stocks move in the same direction on a daily basis (returns). Cointegration means the distance between their absolute prices remains stable over the long term (prices). We trade cointegration, not correlation.
-## 7. Testing for Cointegration
+## 8. Testing for Cointegration
 The book outlines two primary methods for finding cointegrated assets:
 ### A. The CADF Test (For Pairs)
 When dealing with exactly two assets, we use the Cointegrating Augmented Dickey-Fuller (CADF) test.Run a linear regression between Asset A and Asset B. The slope of this regression is our hedge ratio.Calculate the residuals (the spread) using that hedge ratio.Run the standard ADF test on those residuals. If the residuals are stationary, the two assets are cointegrated.
@@ -355,11 +367,53 @@ We run a regression to find the optimal ratio ($\beta$) to combine the two asset
 Check if the resulting spread ($= P_A - \beta \times P_B$) is stationary using ADF test. If it is the pair is cointegrated
 ### B. The Johansen Test (For Portfolios)
 When testing three or more assets (e.g., trying to cointegrate a basket of 5 tech stocks), CADF is insufficient. We must use the Johansen Test.It utilizes eigenvalues to determine how many stationary linear combinations (cointegrating vectors) exist within a larger portfolio.If we have $n$ assets in a basket, the Johansen test can identify up to $n-1$ different cointegrating relationships, allowing for complex, multi-leg statistical arbitrage portfolios.
+
+## $$\Delta Y(t) = \Lambda Y(t - 1) + M + A_1\Delta Y(t - 1) + \dots + A_k\Delta Y(t - k) + \epsilon_t$$
+The core of the test revolves around the matrix $\Lambda$. If $\Lambda = 0$, the next move of $Y$ does not depend on the current price level, meaning there is no mean reversion and therefore no cointegration.Rank ($r$) and Portfolios:
+Let $r$ denote the rank of the matrix $\Lambda$, and $n$ denote the total number of price series. The rank $r$ represents the exact number of independent portfolios that can be constructed using various linear combinations of these cointegrating price series.
+## Test Statistics:
+The test calculates the rank $r$ using eigenvector decomposition of $\Lambda$. This yields two distinct test statistics:
+## The trace statistic.
+### The eigen statistic
+### Hypothesis Testing
+We do not need to calculate the statistics manually; software packages provide the necessary critical values. The test evaluates a sequence of null hypotheses:$r = 0$ (indicating no cointegrating relationship exists)$r \le 1$... continuing up to $r \le n - 1$If the test allows we to reject all of these null hypotheses, we can conclude that $r = n$.
+## Application of Johansen Test
+## Hedge Ratios
+As a highly useful byproduct of calculating these statistics, the eigenvectors discovered during the Johansen Test can be directly applied as hedge ratios. These ratios dictate how to weight the individual price series to successfully form a stationary, mean-reverting portfolio.
+## 9. Pros and Cons of Mean-Reverting Strategies
+## Pros
+## Flexible Construction:
+we are not restricted to instruments that are intrinsically stationary. we can select and combine various cointegrating stocks and ETFs to construct a custom stationary, mean-reverting portfolio.
+
+## Trading Opportunities:
+There is a many choices, aided by the continuous creation of new ETFs that offer marginally different exposures.
+
+## Strong Fundamental Relationship:
+Mean-reverting pairs usually have clear fundamental backing (e.g., pairing the Australian and Canadian economies because both are commodity-dominated, or pairing gold with gold-mining companies).
+
+## Understandable Failures:
+When a cointegrating pair breaks down, the underlying cause is typically identifiable (such as high energy prices disrupting the relationship between gold and gold miners). This contrasts with momentum strategies, which rely on the "greater fool" theory and can fail without clear explanation.
+
+## Adaptable Time Scales:
+These strategies can be applied across a wide spectrum of timeframes, ranging from seconds (market-making) to years (fundamental value investing).
+
+## Favorable Statistics on Short Timeframes:
+Operating on shorter time scales allows for a higher volume of trades annually. This leads to greater statistical confidence, higher Sharpe ratios, and higher compounded returns.
+
+## Cons
+The strategy's high consistency can lull traders into a false sense of security, often resulting in dangerous levels of overleverage (similar to the downfall of Long Term Capital Management).
+
+## Catastrophic Risk:
+When a mean-reverting strategy suddenly fails—often due to fundamental shifts only discernible in hindsight—it typically occurs precisely when the trader is operating at maximum leverage after a long winning streak. This makes the rare losses extremely painful and sometimes catastrophic.
+
+## Difficult Risk Management:
+Standard risk management techniques, such as traditional stop-losses, cannot logically be deployed in mean-reverting systems, making risk mitigation particularly challenging.
+
 ## Section 18.8 from Paul Wilmott on Quantitative Finance
 ## 1.Cointegration vs. Correlation
 the book contrasts Cointegration with traditional models like Modern Portfolio Theory (MPT) and the Capital Asset Pricing Model (CAPM).
 ### Reliability
-CAPM is generally considered more reliable than MPT because it relies on fewer input parameters.
+CAPM is generally considered more reliable than MPT because it relies on fe input parameters.
 ### The Flaw of Correlation:
 Two stocks can be perfectly correlated in the short term but diverge entirely in the long run. Conversely, two stocks might have zero correlation but never wander too far apart from each other.
 ### The Use Case:
@@ -392,4 +446,4 @@ A trader doesn't have to track an index; they could track an exponential math cu
 ### Pairs Trading:
 Analyzing two related stocks (like Nike and Reebok) to find a cointegrated relationship that can be traded against one another.
 ### The Ultimate Advantage:
-Unlike MPT and CAPM, cointegration does not require volatility and correlation to appear explicitly in the analysis, making it reliant on far fewer assumed properties of individual time series.
+Unlike MPT and CAPM, cointegration does not require volatility and correlation to appear explicitly in the analysis, making it reliant on far fe assumed properties of individual time series.
