@@ -1,7 +1,7 @@
-## Week 1
+# Week 1
 I have included both the concepts that I've learnt from Week 1 and the assignments(reading/coding) given for week 1 here
 
-### Concepts that I've learnt during the Week 1
+## Concepts that I've learnt during the Week 1
 ## 1. What is a time series ?
 A time series is simply a sequence of data points indexed in chronological order: $X_t$ for $t \in \{1, 2, \dots, T\}$.Examples include a company’s quarterly sales, daily stock returns, or monthly currency exchange rates. 
 Unlike standard cross-sectional data, time-series observations are inherently dependent on their own past.
@@ -45,8 +45,8 @@ Time series may follow recurring patterns at fixed intervals, such as daily, wee
 
 #### The Major Difference
 
-- **Seasonality** happens at **fixed, predictable intervals within a year** (e.g., ice cream sales spiking every summer). You can circle the exact time it will happen on a calendar.
-- **Cyclical behavior** happens over **unpredictable, varying lengths of time across multiple years** (e.g., an economic recession or housing market crash). You know it will happen eventually, but you cannot predict the exact year or duration.
+- **Seasonality** happens at **fixed, predictable intervals within a year** (e.g., ice cream sales spiking every summer). we can circle the exact time it will happen on a calendar.
+- **Cyclical behavior** happens over **unpredictable, varying lengths of time across multiple years** (e.g., an economic recession or housing market crash). we know it will happen eventually, but we cannot predict the exact year or duration.
 
 ## 2.5 Volatility
 
@@ -132,7 +132,7 @@ Hence, using first differencing, this series is stationary.
 
 ## 4.How to check Stationarity of a time series?
 
-There are a number of ways to test if your time series is stationary:
+There are a number of ways to test if wer time series is stationary:
 
 1. **Unit Root Tests**: Tests like the Augmented Dickey-Fuller (ADF) and Zivot-Andrews are used to see if the series has a unit root, which is a red flag for non-stationarity.
 2. **KPSS Test**: This test works a bit differently - it checks if the series is stationary around a trend or needs differencing to become stationary.
@@ -161,34 +161,87 @@ Stabilizes **heteroscedasticity** (volatility that expands as the series value g
 • **Log ( $\ln(X_t)$ ):** Flattens exponential growth and multiplicative variance.
 • **Square Root ($\sqrt{X_t}$ ):** Stabilizes variance that scales proportionally to the mean.
 
-### Assignment(Reading/Coding)
+## Assignment(Reading/Coding)
 ## Chapter 2 From Ernie Chan's Book
 ## 1. Stationarity
-The entire foundation of mean-reversion trading rests on finding a stationary time series.A time series is considered mathematically stationary if its core statistical properties—specifically its mean (average price) and variance (volatility)—remain constant over time.If you are trading a truly stationary asset, the strategy is perfectly clear:
-When the price deviates significantly above the mean, you short it.
-When the price deviates significantly below the mean, you buy it.
-The problem is that individual stock prices are not stationary. They generally follow a random walk (specifically, Geometric Brownian Motion) with an upward drift. Because individual stocks wander aimlessly, you cannot confidently say they will ever return to their historical average. Therefore, you need mathematical tools to prove whether a series is stationary before you risk money on it.
+The entire foundation of mean-reversion trading rests on finding a stationary time series.A time series is considered mathematically stationary if its core statistical properties—specifically its mean (average price) and variance (volatility)—remain constant over time.If we are trading a truly stationary asset, the strategy is perfectly clear:
+### A.When the price deviates significantly above the mean, we short it.
+### B.When the price deviates significantly below the mean, we buy it.
+The problem is that individual stock prices are not stationary. They generally follow a random walk (specifically, Geometric Brownian Motion) with an upward drift. Because individual stocks wander aimlessly, we cannot confidently say they will ever return to their historical average. Therefore, we need mathematical tools to prove whether a series is stationary before we risk money on it.
 ## 2. Tests for Stationarity
-To scientifically determine if a time series is stationary (mean-reverting) or a random walk, quants use the Augmented Dickey-Fuller (ADF) test.The ADF test looks at the change in price from one period to the next ($\Delta y_t$) and tests if it is proportional to the difference between the current price and its mean. The core regression model looks like this:$$\Delta y_t = \lambda y_{t-1} + \mu + \beta t + \alpha_1 \Delta y_{t-1} + \dots + \epsilon_t$$
-The Logic: If the series is mean-reverting, the change in price ($\Delta y_t$) should be negative when the current price ($y_{t-1}$) is high, and positive when the current price is low. Therefore, the coefficient $\lambda$ must be negative.
-The Null Hypothesis: The ADF test assumes the series is a random walk ($\lambda = 0$).
-The Result: The test outputs a test statistic and a $p$-value. If the $p$-value is very small (typically $< 0.05$), you reject the null hypothesis. This gives you $95\%$ statistical confidence that the series is stationary.
+To scientifically determine if a time series is stationary (mean-reverting) or a random walk, quants use the Augmented Dickey-Fuller (ADF) test.The ADF test looks at the change in price from one period to the next ($\Delta y_t$) and tests if it is proportional to the difference between the current price and its mean. The core regression model looks like this:
+###  $\Delta y_t$ = $\lambda y_{t-1} + \mu + \beta t + \alpha_1 \Delta y_{t-1} + \dots + \epsilon_t$
+### The Logic:
+If the series is mean-reverting, the change in price ($\Delta y_t$) should be negative when the current price ($y_{t-1}$) is high, and positive when the current price is low. Therefore, the coefficient $\lambda$ must be negative.
+### The Null Hypothesis:
+The ADF test assumes the series is a random walk ($\lambda = 0$).
+### The Result:
+The test outputs a test statistic and a $p$-value. If the $p$-value is very small (typically $< 0.05$), we reject the null hypothesis. This gives us $95\%$ statistical confidence that the series is stationary.
 ## 3. Categorizing the Series using Hurst Exponent
-While the ADF test gives a "yes or no" answer to stationarity, the Hurst Exponent ($H$) provides a continuous measure of a time series' "memory" and helps categorize its behavior.It is based on the idea that the variance of a random walk scales linearly with time ($\text{Var} \propto \tau$), while a trending or mean-reverting series scales differently ($\text{Var} \propto \tau^{2H}$).By calculating $H$, you can classify any market or asset:
-$H = 0.5$ (Random Walk): The series has no memory. Price movements are completely independent of past movements.
-$H < 0.5$ (Mean-Reverting / Anti-persistent): The series has a memory that forces it back to the mean. A positive move is statistically likely to be followed by a negative move.
-$H > 0.5$ (Trending / Persistent): The series has momentum. A positive move is statistically likely to be followed by another positive move.
+While the ADF test gives a "yes or no" answer to stationarity, the Hurst Exponent ($H$) provides a continuous measure of a time series' "memory" and helps categorize its behavior.It is based on the idea that the variance of a random walk scales linearly with time ($\text{Var} \propto \tau$), while a trending or mean-reverting series scales differently ($\text{Var} \propto \tau^{2H}$).By calculating $H$, we can classify any market or asset:
+### $H = 0.5$ (Random Walk):
+The series has no memory. Price movements are completely independent of past movements.
+### $H < 0.5$ (Mean-Reverting / Anti-persistent): 
+The series has a memory that forces it back to the mean. A positive move is statistically likely to be followed by a negative move.
+### $H > 0.5$ (Trending / Persistent):
+The series has momentum. A positive move is statistically likely to be followed by another positive move.
 ## 4. The Half-Life of Mean Reversion
-Identifying a stationary series is useless if it takes a decade for the price to revert to its mean. You need to calculate the half-life—the expected time it takes for the price to return exactly halfway to its historical average.Chan uses the continuous-time Ornstein-Uhlenbeck process to model this. By running a linear regression of the price changes against the lagged prices, you find the slope/coefficient ($\lambda$). You then plug $\lambda$ into the half-life formula:$$t_{1/2} = \frac{-\ln(2)}{\lambda}$$
-Why it is crucial: The half-life dictates your holding period. If $t_{1/2}$ is 5 days, it is a highly actionable strategy. If $t_{1/2}$ is 250 days, the capital requirement and opportunity cost are too high, and the structural "regime" of the market will likely change before you can exit the trade profitably.
+Identifying a stationary series is useless if it takes a decade for the price to revert to its mean. We need to calculate the half-life—the expected time it takes for the price to return exactly halfway to its historical average.This book uses the continuous-time Ornstein-Uhlenbeck process to model this. By running a linear regression of the price changes against the lagged prices, we find the slope/coefficient ($\lambda$). We then plug $\lambda$ into the half-life formula:$$t_{1/2} = \frac{-\ln(2)}{\lambda}$$
+### Why it is crucial:
+The half-life dictates our holding period. If $t_{1/2}$ is 5 days, it is a highly actionable strategy. If $t_{1/2}$ is 250 days, the capital requirement and opportunity cost are too high, and the structural "regime" of the market will likely change before we can exit the trade profitably.
 ## 5. Creating Stationarity using Cointegration
-Because individual stocks are non-stationary, quants engineer their own stationary series using a concept called Cointegration.Cointegration occurs when two or more non-stationary time series (random walks) can be combined linearly to create a new, perfectly stationary time series.
-Example: Stock A and Stock B might both be wandering aimlessly. But if you calculate Stock A - (Hedge Ratio * Stock B), that resulting spread might be perfectly flat and stationary over time.
-Correlation vs. Cointegration: Chan emphasizes never confusing these two. Correlation means two stocks move in the same direction on a daily basis (returns). Cointegration means the distance between their absolute prices remains stable over the long term (prices). You trade cointegration, not correlation.
+Because individual stocks are non-stationary, quants engineer their own stationary series using a concept called Cointegration.
+### Cointegration:
+Cointegration occurs when two or more non-stationary time series (random walks) can be combined linearly to create a new, perfectly stationary time series.
+### Example:
+Stock A and Stock B might both be wandering aimlessly. But if we calculate Stock A - (Hedge Ratio * Stock B), that resulting spread might be perfectly flat and stationary over time.
+## Correlation vs. Cointegration:
+The book emphasizes never confusing these two. Correlation means two stocks move in the same direction on a daily basis (returns). Cointegration means the distance between their absolute prices remains stable over the long term (prices). We trade cointegration, not correlation.
 ## 6. Testing for Cointegration
-Chan outlines two primary methods for finding cointegrated assets:
-A. The CADF Test (For Pairs)When dealing with exactly two assets, you use the Cointegrating Augmented Dickey-Fuller (CADF) test.Run a linear regression between Asset A and Asset B. The slope of this regression is your hedge ratio.Calculate the residuals (the spread) using that hedge ratio.Run the standard ADF test on those residuals. If the residuals are stationary, the two assets are cointegrated.
-B. The Johansen Test (For Portfolios)When testing three or more assets (e.g., trying to cointegrate a basket of 5 tech stocks), CADF is insufficient. You must use the Johansen Test.It utilizes eigenvalues to determine how many stationary linear combinations (cointegrating vectors) exist within a larger portfolio.If you have $n$ assets in a basket, the Johansen test can identify up to $n-1$ different cointegrating relationships, allowing for complex, multi-leg statistical arbitrage portfolios.Would you like to see how to actually implement one of these mathematical models—like the Johansen Test or calculating the Half-Life—using Python code?
+The book outlines two primary methods for finding cointegrated assets:
+### A. The CADF Test (For Pairs)
+When dealing with exactly two assets, we use the Cointegrating Augmented Dickey-Fuller (CADF) test.Run a linear regression between Asset A and Asset B. The slope of this regression is our hedge ratio.Calculate the residuals (the spread) using that hedge ratio.Run the standard ADF test on those residuals. If the residuals are stationary, the two assets are cointegrated.
+### B. The Johansen Test (For Portfolios)
+When testing three or more assets (e.g., trying to cointegrate a basket of 5 tech stocks), CADF is insufficient. We must use the Johansen Test.It utilizes eigenvalues to determine how many stationary linear combinations (cointegrating vectors) exist within a larger portfolio.If we have $n$ assets in a basket, the Johansen test can identify up to $n-1$ different cointegrating relationships, allowing for complex, multi-leg statistical arbitrage portfolios.
+## Section 18.8 from Paul Wilmott on Quantitative Finance
+## 1.Cointegration vs. Correlation
+The text contrasts Cointegration with traditional models like Modern Portfolio Theory (MPT) and the Capital Asset Pricing Model (CAPM).
+### Reliability
+CAPM is generally considered more reliable than MPT because it relies on fewer input parameters.
+### The Flaw of Correlation:
+Two stocks can be perfectly correlated in the short term but diverge entirely in the long run. Conversely, two stocks might have zero correlation but never wander too far apart from each other.
+### The Use Case:
+While short-term correlation is useful for strategies like delta hedging, cointegration is much more valuable when holding an unhedged portfolio over a long period.
+## 2. The Concept of Stationarity
+Stationary Series: A time series that has a finite and constant mean, standard deviation, and autocorrelation function. It essentially oscillates around a baseline and does not wander too far from its mean.
+### Non-Stationary Series:
+Standard stock prices tend to grow over time and are therefore non-stationary.The Coin-Tossing Analogy:
+### Stationary Example:
+The outcome of individual coin tosses (+1 for heads, -1 for tails) is stationary. It has a mean of 0 and a standard deviation of 1.
+### Non-Stationary Example:
+The cumulative sum of those coin tosses (like a running betting tally) is non-stationary. Even though the mean remains 0, the sum wanders further away from the baseline, and its standard deviation grows proportionally to the square root of the number of throws.
+## 3. Mathematical Testing for Stationarity
+Testing a time series $X_t$ involves finding coefficients ($a$, $b$, and $c$) using the following linear regression model:
+## $$X_t = a X_{t-1} + b + ct$$
+### The value of coefficient $a$ dictates the nature of the series:
+### Unstable: $|a| > 1$
+### Stationary: $-1 \le a < 1$
+### Non-Stationary: $a = 1$
+Because this relies on statistical probability, the text notes that the Dickey-Fuller statistic is required to determine the actual degree of confidence in the result.
+## 4. Defining Cointegration in Portfolios
+The book defines cointegration as the ability to combine non-stationary individual stocks into a stationary portfolio.Mathematically, we are looking for specific portfolio weights ($\lambda_i$) where the sum of the weights equals 1 ($\sum_{i=1}^{N} \lambda_i = 1$), such that the linear combination of the stock prices ($S_i$) results in a stationary series:
+## $$\sum_{i=1}^{N} \lambda_i S_i$$
+If we can find this stationary combination, the underlying stocks are considered cointegrated.
+## 5. Practical Applications in Finance
+### Index Tracking:
+Instead of buying all 500 stocks in the S&P 500, we can find a smaller portfolio (e.g., 15 stocks) that is cointegrated with the index. Because it is cointegrated, the tracking error will have a constant mean and standard deviation, meaning it will reliably track the index without wandering off.
+### Targeting Arbitrary Returns:
+A trader doesn't have to track an index; they could track an exponential math curve like $e^{0.2t}$ to target a consistent 20% return.
+### Pairs Trading:
+Analyzing two related stocks (like Nike and Reebok) to find a cointegrated relationship that can be traded against one another.
+### The Ultimate Advantage:
+Unlike MPT and CAPM, cointegration does not require volatility and correlation to appear explicitly in the analysis, making it reliant on far fewer assumed properties of individual time series.
+
 
 
 
