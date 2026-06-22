@@ -160,6 +160,141 @@ Stabilizes **heteroscedasticity** (volatility that expands as the series value g
 
 • **Log ( $\ln(X_t)$ ):** Flattens exponential growth and multiplicative variance.
 • **Square Root ($\sqrt{X_t}$ ):** Stabilizes variance that scales proportionally to the mean.
+## 6.Time Series Forecasting: ARIMA / SARIMA
+ARIMA is one of the most widely used approaches to time series forecasting . These models focus on the autocorrelation structure of the series, that is, the dependence of observations on their past values. Before fitting an ARIMA model, the series must be stationary or transformed into a stationary series through differencing.  Stationarity is therefore a central requirement for ARIMA modeling.
+
+An ARIMA model is built from three components, written as ARIMA (p,d,q) 
+| Component | Symbol | Meaning |
+| --- | --- | --- |
+| **AR** (Autoregressive) |     p | Number of lagged values of the series used as predictors |
+| **I** (Integrated) |    d | Number of times the series is differenced to achieve stationarity |
+| **MA** (Moving Average) |    q | Number of lagged forecast errors used in the prediction |
+
+## 6.1 Autoregressive (AR) component
+
+In an autoregressive model of order p, the current value of the series depends linearly on its previous p values:
+
+## $$y_t = c + \phi_1 y_{t-1} + \phi_2 y_{t-2} + \dots + \phi_p y_{t-p} + \varepsilon_t$$
+
+
+here,
+
+- $y_t$ is current observation
+- c is a constant
+- $ϕ_1\;to\; ϕ_p$ are the autoregressive parameters
+- $ϵ_t$ is white noise
+
+An AR model resembles a regression on lagged values of the series itself. The coefficients $ϕ_i$ determine how strongly past observations influence the present.
+
+- AR(0) with no constant corresponds to white noise, since the series contains only random shocks.
+- AR(1) with $ϕ1$ = 1 and c = 0 is a random walk.
+- AR(1) with $ϕ1$ = 1 and c ≠ 0 is a random walk with drift.
+## 6.2 Moving Average (MA) component
+
+A moving average model of order q uses past **forecast errors** in a regression-like model:
+
+
+## $$y_t = c + \varepsilon_t + \theta_1 \varepsilon_{t-1} + \theta_2 \varepsilon_{t-2} + \dots + \theta_q \varepsilon_{t-q}$$
+
+
+Here, the current value depends on previous error terms rather than past observations directly. The coefficients $θ_i​$ determines how past shocks propagate through time.
+
+## 6.3 Integrated (I) component
+
+The integrated component handles  non - stationary time series by differencing the series d times until stationarity is achieved.
+
+Common cases include:
+
+- d = 0: the series is already stationary
+- d = 1: the first difference Y(t) - Y(t-1) is stationary
+- d = 2: the second difference is stationary
+
+In finance, asset prices are often non-stationary, while returns are typically closer to stationary.
+### General Equation for ARIMA
+
+To write the model compactly, we use the backshift operator B, defined by:  Byₜ = yₜ₋₁
+
+Combining all three factors , we get  : 
+
+
+## $$(1 - \phi_1 B - \dots - \phi_p B^p)(1-B)^d y_t = c + (1 + \theta_1 B + \dots + \theta_q B^q)\varepsilon_t$$
+## 7.2 SARIMA (Seasonal ARIMA) model
+
+SARIMA extends ARIMA by incorporating seasonal patterns in the data. Seasonal differencing compares an observation with the corresponding observation from the previous season: $y_t - y_{t-s}$
+
+This helps remove repeating seasonal patterns and makes the series more stationary before modeling.
+
+A SARIMA model is represented as:
+
+## $$\text{ARIMA}(p,d,q)(P,D,Q)_s$$
+
+where:
+
+- p,d,q are the non-seasonal autoregressive, differencing, and moving average orders
+- P,D,Q are the seasonal autoregressive, differencing, and moving average orders
+- s is the seasonal length
+## Unit Root Tests:
+
+Tests like the Augmented Dickey-Fuller (ADF) and Zivot-Andrews are used to see if the series has a unit root, which is a red flag for non-stationarity.
+
+## Unit Roots - A gentle introduction
+
+A unit root is a characteristic of a time series that makes it **non-stationary**.
+
+When a time series has a unit root, it means its statistical properties (like variance) change over time. This is a problem because standard time series models (like AR, MA, ARMA) require the data to be stationary to make reliable predictions. If you model a non-stationary series without transforming it first, your results will likely be flawed.
+
+## Example!
+
+To understand unit roots mathematically, we can look at a simple Autoregressive model of order 1, or **AR(1)**. The formula for an AR(1) model is: $A_t = \phi A_{t-1} + \epsilon_t$
+
+1. $A_t$: The value of the time series at time *t*
+2. $A_{t-1}$: The value of the time series at the previous time step
+3. $\phi$ **(phi)**: The coefficient (a multiplier) applied to the previous value
+4. $\epsilon_t$: The error term (white noise) at time *t*, assumed to have a mean of 0 and a constant variance of $\sigma^2$
+The entire concept of a unit root revolves around the value of this coefficient, $\phi$:
+
+1. **Case 1:** $|\phi| < 1$ **(Stationary)**
+If the absolute value of $\phi$ is less than 1 (e.g., 0.5, -0.7), the time series is **stationary**.
+    1. **Expected Value (Mean):** As time goes on ($t \to \infty$), the expected value converges to 0
+    2. **Variance:** The variance converges to a constant value: $\frac{\sigma^2}{1 - \phi^2}$ 
+    
+    Because both the mean and variance are constant over time, the series is stationary.
+    
+2. **Case 2:** $|\phi| > 1$ **(Explosive / Non-Stationary)**
+If the absolute value of $\phi$ is greater than 1 (e.g., 1.5, -2), the time series is **non-stationary**
+    1. **Expected Value (Mean):** The series will explode towards either positive or negative infinity as time progresses
+    
+    It clearly violates the constant mean assumption of stationarity.
+    
+3. $|\phi| = 1$ **(The Unit Root)**
+If the absolute value of $\phi$ is exactly 1 (i.e., $\phi = \pm 1$ ), the time series has a **unit root**
+    1. **Variance:** The variance at time *t* is $t \cdot \sigma^2$. This means that as time *t* increases, the variance grows larger and larger
+    
+    Because the variance is not constant and increases with time, a unit root process is **non-stationary**.
+## Extending to any ARMA(p, q) model
+
+With multiple $\phi$ coefficients, we use two key concepts which are the **Lag Operator** and the **Characteristic Equation**.
+
+The Lag Operator (sometimes denoted as $B$ for Backshift) is a mathematical shortcut. When applied to a time series value, it shifts it back by one period.
+
+1. $L \cdot Y_t = Y_{t-1}$
+2. $L^2 \cdot Y_t = Y_{t-2}$
+3. $L^p \cdot Y_t = Y_{t-p}$ and so on…
+
+If we rewrite our AR(p) equation using the Lag Operator and move all the $Y$ terms to the left side, we get: $Y_t - \phi_1 L Y_t - \phi_2 L^2 Y_t - \dots - \phi_p L^p Y_t = \epsilon_t$
+Factoring out $Y_t$ we get $(1 - \phi_1 L - \phi_2 L^2 - \dots - \phi_p L^p) Y_t = \epsilon_t$
+To figure out if this complex model is stationary, mathematicians take the polynomial inside the parentheses, replace the Lag Operator ($L$) with a standard algebraic variable (usually $z$), and set it equal to zero. This is the **Characteristic Equation** of the time series $1 - \phi_1 z - \phi_2 z^2 - \dots - \phi_p z^p = 0$
+
+The rule for stationarity depends entirely on where these roots fall relative to the unit circle:
+
+This is literally where the term "Unit Root" comes from—it means that at least one of the roots (solutions for *z*) lies exactly on the unit circle (a magnitude of 1).
+
+| Root location | $|z|$ | Status |
+| --- | --- | --- |
+| **Outside the circle** |  $|z| > 1$ | **Stationary** (The series is stable) |
+| **Inside the circle** | $|z| < 1$ | **Explosive** (Non-stationary) |
+| **Exactly ON the circle** | $|z| = 1$ | **Unit Root** (Non-stationary) |
+
 
 ## Assignment(Reading/Coding)
 ## Chapter 2 From Ernie Chan's Book
@@ -216,6 +351,10 @@ Correlation means two stocks move in the same direction on a daily basis (return
 The book outlines two primary methods for finding cointegrated assets:
 ### A. The CADF Test (For Pairs)
 When dealing with exactly two assets, we use the Cointegrating Augmented Dickey-Fuller (CADF) test.Run a linear regression between Asset A and Asset B. The slope of this regression is our hedge ratio.Calculate the residuals (the spread) using that hedge ratio.Run the standard ADF test on those residuals. If the residuals are stationary, the two assets are cointegrated.
+### Find hedge ratio:
+We run a regression to find the optimal ratio ($\beta$) to combine the two assets $P_A = \beta \times P_B$
+### Test the residuals:
+Check if the resulting spread ($= P_A - \beta \times P_B$) is stationary using ADF test. If it is the pair is cointegrated
 ### B. The Johansen Test (For Portfolios)
 When testing three or more assets (e.g., trying to cointegrate a basket of 5 tech stocks), CADF is insufficient. We must use the Johansen Test.It utilizes eigenvalues to determine how many stationary linear combinations (cointegrating vectors) exist within a larger portfolio.If we have $n$ assets in a basket, the Johansen test can identify up to $n-1$ different cointegrating relationships, allowing for complex, multi-leg statistical arbitrage portfolios.
 ## Section 18.8 from Paul Wilmott on Quantitative Finance
