@@ -178,18 +178,31 @@ The ADF test assumes the series is a random walk ($\lambda = 0$).
 ### The Result:
 The test outputs a test statistic and a $p$-value. If the $p$-value is very small (typically $< 0.05$), we reject the null hypothesis. This gives us $95\%$ statistical confidence that the series is stationary.
 ## 3. Categorizing the Series using Hurst Exponent
-While the ADF test gives a "yes or no" answer to stationarity, the Hurst Exponent ($H$) provides a continuous measure of a time series' "memory" and helps categorize its behavior.It is based on the idea that the variance of a random walk scales linearly with time ($\text{Var} \propto \tau$), while a trending or mean-reverting series scales differently ($\text{Var} \propto \tau^{2H}$).By calculating $H$, we can classify any market or asset:
+While the ADF test gives a "yes or no" answer to stationarity, the Hurst Exponent ($H$) provides a continuous measure of a time series' "memory" and helps categorize its behavior.The Hurst Exponent modifies the standard variance equation by introducing a scaling exponent, $H$. It proposes that the variance of log prices scales proportionally to the time lag raised to the power of $2H$:
+## $$\langle|z(t + \tau) - z(t)|^2\rangle \sim \tau^{2H}$$
 ### $H = 0.5$ (Random Walk):
-The series has no memory. Price movements are completely independent of past movements.
-### $H < 0.5$ (Mean-Reverting / Anti-persistent): 
-The series has a memory that forces it back to the mean. A positive move is statistically likely to be followed by a negative move.
-### $H > 0.5$ (Trending / Persistent):
-The series has momentum. A positive move is statistically likely to be followed by another positive move.
-## 4. The Half-Life of Mean Reversion
+The equation simplifies to $\tau^{1}$, confirming the asset diffuses at a normal, unpredictable rate.
+### $H < 0.5$ (Mean-Reverting):
+The variance grows slower than time. This indicates the series is "anti-persistent." If it goes up today, it is statistically more likely to go down tomorrow, keeping the long-term variance constrained.
+### $H > 0.5$ (Trending):
+The variance grows faster than time. The series is "persistent." A positive move today increases the likelihood of another positive move tomorrow, causing the price to drift further away from its origin.
+## How it is calculated (Based on the MATLAB snippet):
+To calculate $H$, the code (calculateHurstExponent.m) computes the variance of the price differences for various time lags ($\tau = 2, 4, 8, \dots, 100$). It then plots the $\log(\tau)$ against the $\log(\text{Variance})$. Because taking the logarithm of the formula above yields a linear equation ($y = 2H \cdot x + c$), running a simple linear regression on these log values yields a slope. Half of that slope is our Hurst Exponent.(Note: The book mentions an example where the USD.CAD pair yielded an $H$ of 0.49, indicating it is very weakly mean-reverting, almost a random walk).
+## 4. The Variance Ratio Test
+The Variance Ratio test approaches the exact same core concept from a slightly different mathematical angle. Instead of calculating an exponent, it calculates a direct ratio.It tests the null hypothesis that the variance of a multi-period return is simply proportional to the variance of a single-period return.$$\text{Variance Ratio} = \frac{\text{Var}(z(t) - z(t-\tau))}{\tau \cdot \text{Var}(z(t) - z(t-1))}$$
+### Ratio $= 1$:
+The series is a random walk.
+### Ratio $< 1$:
+The series is mean-reverting (the multi-period variance is smaller than a random walk would suggest).
+### Ratio $> 1$:
+The series is trending.
+### Statistical Importance:
+While the Hurst Exponent provides a measurement, the Variance Ratio is often used as a formal statistical test (often associated with Lo and MacKinlay's 1988 paper, as noted in the book). It allows quants to generate a test statistic and $p$-value to determine if they can confidently reject the random walk hypothesis. 
+## 5. The Half-Life of Mean Reversion
 Identifying a stationary series is useless if it takes a decade for the price to revert to its mean. We need to calculate the half-life—the expected time it takes for the price to return exactly halfway to its historical average.This book uses the continuous-time Ornstein-Uhlenbeck process to model this. By running a linear regression of the price changes against the lagged prices, we find the slope/coefficient ($\lambda$). We then plug $\lambda$ into the half-life formula:$$t_{1/2} = \frac{-\ln(2)}{\lambda}$$
 ### Why it is crucial:
 The half-life dictates our holding period. If $t_{1/2}$ is 5 days, it is a highly actionable strategy. If $t_{1/2}$ is 250 days, the capital requirement and opportunity cost are too high, and the structural "regime" of the market will likely change before we can exit the trade profitably.
-## 5. Creating Stationarity using Cointegration
+## 6. Creating Stationarity using Cointegration
 Because individual stocks are non-stationary, quants engineer their own stationary series using a concept called Cointegration.
 ### Cointegration:
 Cointegration occurs when two or more non-stationary time series (random walks) can be combined linearly to create a new, perfectly stationary time series.
@@ -197,7 +210,7 @@ Cointegration occurs when two or more non-stationary time series (random walks) 
 Stock A and Stock B might both be wandering aimlessly. But if we calculate Stock A - (Hedge Ratio * Stock B), that resulting spread might be perfectly flat and stationary over time.
 ## Correlation vs. Cointegration:
 The book emphasizes never confusing these two. Correlation means two stocks move in the same direction on a daily basis (returns). Cointegration means the distance between their absolute prices remains stable over the long term (prices). We trade cointegration, not correlation.
-## 6. Testing for Cointegration
+## 7. Testing for Cointegration
 The book outlines two primary methods for finding cointegrated assets:
 ### A. The CADF Test (For Pairs)
 When dealing with exactly two assets, we use the Cointegrating Augmented Dickey-Fuller (CADF) test.Run a linear regression between Asset A and Asset B. The slope of this regression is our hedge ratio.Calculate the residuals (the spread) using that hedge ratio.Run the standard ADF test on those residuals. If the residuals are stationary, the two assets are cointegrated.
@@ -205,7 +218,7 @@ When dealing with exactly two assets, we use the Cointegrating Augmented Dickey-
 When testing three or more assets (e.g., trying to cointegrate a basket of 5 tech stocks), CADF is insufficient. We must use the Johansen Test.It utilizes eigenvalues to determine how many stationary linear combinations (cointegrating vectors) exist within a larger portfolio.If we have $n$ assets in a basket, the Johansen test can identify up to $n-1$ different cointegrating relationships, allowing for complex, multi-leg statistical arbitrage portfolios.
 ## Section 18.8 from Paul Wilmott on Quantitative Finance
 ## 1.Cointegration vs. Correlation
-The text contrasts Cointegration with traditional models like Modern Portfolio Theory (MPT) and the Capital Asset Pricing Model (CAPM).
+the book contrasts Cointegration with traditional models like Modern Portfolio Theory (MPT) and the Capital Asset Pricing Model (CAPM).
 ### Reliability
 CAPM is generally considered more reliable than MPT because it relies on fewer input parameters.
 ### The Flaw of Correlation:
@@ -227,7 +240,7 @@ Testing a time series $X_t$ involves finding coefficients ($a$, $b$, and $c$) us
 ### Unstable: $|a| > 1$
 ### Stationary: $-1 \le a < 1$
 ### Non-Stationary: $a = 1$
-Because this relies on statistical probability, the text notes that the Dickey-Fuller statistic is required to determine the actual degree of confidence in the result.
+Because this relies on statistical probability, the book notes that the Dickey-Fuller statistic is required to determine the actual degree of confidence in the result.
 ## 4. Defining Cointegration in Portfolios
 The book defines cointegration as the ability to combine non-stationary individual stocks into a stationary portfolio.Mathematically, we are looking for specific portfolio weights ($\lambda_i$) where the sum of the weights equals 1 ($\sum_{i=1}^{N} \lambda_i = 1$), such that the linear combination of the stock prices ($S_i$) results in a stationary series:
 ## $$\sum_{i=1}^{N} \lambda_i S_i$$
