@@ -210,7 +210,7 @@ Common cases include:
 - d = 2: the second difference is stationary
 
 In finance, asset prices are often non-stationary, while returns are typically closer to stationary.
-### General Equation for ARIMA
+### 6.4 General Equation for ARIMA
 
 To write the model compactly, we use the backshift operator B, defined by:  Byₜ = yₜ₋₁
 
@@ -218,7 +218,7 @@ Combining all three factors , we get  :
 
 
 ## $$(1 - \phi_1 B - \dots - \phi_p B^p)(1-B)^d y_t = c + (1 + \theta_1 B + \dots + \theta_q B^q)\varepsilon_t$$
-## 7.2 SARIMA (Seasonal ARIMA) model
+## 6.5 SARIMA (Seasonal ARIMA) model
 
 SARIMA extends ARIMA by incorporating seasonal patterns in the data. Seasonal differencing compares an observation with the corresponding observation from the previous season: $y_t - y_{t-s}$
 
@@ -393,4 +393,3 @@ A trader doesn't have to track an index; they could track an exponential math cu
 Analyzing two related stocks (like Nike and Reebok) to find a cointegrated relationship that can be traded against one another.
 ### The Ultimate Advantage:
 Unlike MPT and CAPM, cointegration does not require volatility and correlation to appear explicitly in the analysis, making it reliant on far fewer assumed properties of individual time series.
-
