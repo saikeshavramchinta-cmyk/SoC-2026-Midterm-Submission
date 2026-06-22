@@ -289,12 +289,10 @@ The rule for stationarity depends entirely on where these roots fall relative to
 
 This is literally where the term "Unit Root" comes from—it means that at least one of the roots (solutions for *z*) lies exactly on the unit circle (a magnitude of 1).
 
-| Root location | $|z|$ | Status |
-| --- | --- | --- |
-| **Outside the circle** |  $|z| > 1$ | **Stationary** (The series is stable) |
-| **Inside the circle** | $|z| < 1$ | **Explosive** (Non-stationary) |
-| **Exactly ON the circle** | $|z| = 1$ | **Unit Root** (Non-stationary) |
-
+## Root location	$|z|$	Status
+### Outside the circle	 $|z| > 1$	Stationary (The series is stable)
+### Inside the circle	$|z| < 1$	Explosive (Non-stationary)
+### Exactly ON the circle	$|z| = 1$	Unit Root (Non-stationary)
 
 ## Assignment(Reading/Coding)
 ## Chapter 2 From Ernie Chan's Book
