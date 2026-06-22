@@ -1,4 +1,7 @@
 ## Week 1
+I have included both the concepts that I've learnt from Week 1 and the assignments(reading/coding) given for week 1 here
+
+### Concepts that I've learnt during the Week 1
 ## 1. What is a time series ?
 A time series is simply a sequence of data points indexed in chronological order: $X_t$ for $t \in \{1, 2, \dots, T\}$.Examples include a company’s quarterly sales, daily stock returns, or monthly currency exchange rates. 
 Unlike standard cross-sectional data, time-series observations are inherently dependent on their own past.
@@ -136,7 +139,7 @@ There are a number of ways to test if your time series is stationary:
 3. **Run Sequence Plots**: A simple but effective visual method. These plots show the data over time and help spot trends or seasonal patterns.
 4. **Less Common Tests**: There are more advanced methods like the Priestley-Subba Rao test or wavelet-based techniques, which are used in more specialised scenarios.
 ## 5. Methods to make a time series stationary
-1. **Differencing (Fixes Shifting Mean) -** 
+5.1 **Differencing (Fixes Shifting Mean) -** 
 
 Tracks the **change** between periods to strip out stochastic trends (random walks).
 
@@ -144,16 +147,17 @@ Tracks the **change** between periods to strip out stochastic trends (random wal
 - Second-Order: $Y't = Y_t - Y{t-1}$ (removes quadratic trends)
 - Seasonal: $Y_t = X_t - X_{t-m}$ (removes cycles of period $m$, e.g., $m=12$)
 
-2. **Detrending (Fixes Deterministic trends) -**
+5.2 **Detrending (Fixes Deterministic trends) -**
 
 Used if data reverts to a predictable, constant path. Fit a trend line via regression and extract the stationary residuals:
                                      $Y_t = X_t - (\beta_0 + \beta_1 t)$
 
 **Rule:** Use detrending for deterministic trends; use differencing for random walks.
 
-3. **Log / Square Root Transformations (Fixes Changing Variance) -** 
+5.3 **Log / Square Root Transformations (Fixes Changing Variance) -** 
 
 Stabilizes **heteroscedasticity** (volatility that expands as the series value grows). *Apply before differencing.*
 
 • **Log ( $\ln(X_t)$ ):** Flattens exponential growth and multiplicative variance.
 • **Square Root ($\sqrt{X_t}$ ):** Stabilizes variance that scales proportionally to the mean.
+
