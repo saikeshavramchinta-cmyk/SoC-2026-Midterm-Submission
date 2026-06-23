@@ -382,7 +382,7 @@ The core of the test revolves around the matrix $\Lambda$. If $\Lambda = 0$, the
 Let $r$ denote the rank of the matrix $\Lambda$, and $n$ denote the total number of price series. The rank $r$ represents the exact number of independent portfolios that can be constructed using various linear combinations of these cointegrating price series.
 ## Test Statistics:
 The test calculates the rank $r$ using eigenvector decomposition of $\Lambda$. This yields two distinct test statistics:
-## The trace statistic.
+### The trace statistic.
 ### The eigen statistic
 ### Hypothesis Testing
 We do not need to calculate the statistics manually; software packages provide the necessary critical values. The test evaluates a sequence of null hypotheses:$r = 0$ (indicating no cointegrating relationship exists)$r \le 1$... continuing up to $r \le n - 1$If the test allows we to reject all of these null hypotheses, we can conclude that $r = n$.
