@@ -233,11 +233,11 @@ where:
 - p,d,q are the non-seasonal autoregressive, differencing, and moving average orders
 - P,D,Q are the seasonal autoregressive, differencing, and moving average orders
 - s is the seasonal length
-## Unit Root Tests:
+## 6.6 Unit Root Tests:
 
 Tests like the Augmented Dickey-Fuller (ADF) and Zivot-Andrews are used to see if the series has a unit root, which is a red flag for non-stationarity.
 
-## Unit Roots - A gentle introduction
+## 6.7 Unit Roots - A gentle introduction
 
 A unit root is a characteristic of a time series that makes it **non-stationary**.
 
@@ -271,7 +271,7 @@ If the absolute value of $\phi$ is exactly 1 (i.e., $\phi = \pm 1$ ), the time s
     1. **Variance:** The variance at time *t* is $t \cdot \sigma^2$. This means that as time *t* increases, the variance grows larger and larger
     
     Because the variance is not constant and increases with time, a unit root process is **non-stationary**.
-## Extending to any ARMA(p, q) model
+## 6.8 Extending to any ARMA(p, q) model
 
 With multiple $\phi$ coefficients, we use two key concepts which are the **Lag Operator** and the **Characteristic Equation**.
 
@@ -302,6 +302,7 @@ The entire foundation of mean-reversion trading rests on finding a stationary ti
 ### B.When the price deviates significantly below the mean, we buy it.
 The problem is that individual stock prices are not stationary. They generally follow a random walk (specifically, Geometric Brownian Motion) with an upward drift. Because individual stocks wander aimlessly, we cannot confidently say they will ever return to their historical average. Therefore, we need mathematical tools to prove whether a series is stationary before we risk money on it.
 ## 2. Tests for Stationarity
+## ADF test
 To scientifically determine if a time series is stationary (mean-reverting) or a random walk, quants use the Augmented Dickey-Fuller (ADF) test.The ADF test looks at the change in price from one period to the next ($\Delta y_t$) and tests if it is proportional to the difference between the current price and its mean. The core regression model looks like this:
 ###  $\Delta y_t$ = $\lambda y_{t-1} + \mu + \beta t + \alpha_1 \Delta y_{t-1} + \dots + \epsilon_t$
 ### The Logic:
