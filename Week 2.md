@@ -121,49 +121,41 @@ signal : stick with your prior - barely move.
 The Kalman gain is the filter automatically doing this cost - benefit calculation at every single time step - no human judgement required.
 ## Kalman Filter as Market-Making Model
 There is another noteworthy application of Kalman filter to a meanreverting strategy. In this application we are concerned with only one mean-reverting price series; we are not concerned with finding the hedge ratio between two cointegrating price series. However, as before, we still want to fi nd the mean price and the standard deviation of the price series for our mean reversion trading. So the mean price m(t) is the hidden variable here, and the price y(t) is the observable variable. The measurement equation in this case is trivial:
- y(t) = m(t) + ∋(t)  (“Measurement equation”)
+### y(t) = m(t) + ∋(t)  (“Measurement equation”)
 with the same state transition equation
- m(t) = m(t − 1) + ω(t − 1). (“State transition”) (3.15)
+### m(t) = m(t − 1) + ω(t − 1). (“State transition”) 
 So the state update equation 3.11 is just
- m(t | t) = m(t | t − 1) + K(t)( y(t) − m(t | t − 1)). (“State update”) (3.16)
+### m(t | t) = m(t | t − 1) + K(t)( y(t) − m(t | t − 1)). (“State update”) (3.16)
 (This may be the time to review Box 3.1 if you skipped it on fi rst reading.)
-The variance of the forecast error is
- Q(t) = Var(m(t)) + Ve. (3.17)
+Th3e variance of the forecast error is
+### Q(t) = Var(m(t)) + $V_e$
 The Kalman gain is
- K(t) = R(t | t − 1)/(R(t | t − 1) + Ve), (3.18)
+### K(t) = R(t | t − 1)/(R(t | t − 1) + $V_e$), 
 and the state variance update is
- R(t | t) = (1 − K(t))R(t | t − 1). (3.19)
-Example 3.3 (Continued)
-Instead of coding the Kalman fi lter yourself as we demonstrated,
-you can also use many free open-source MATLAB codes available.
-One such package can be found at www.cs.ubc.ca/~murphyk
-/Software/Kalman/kalman.html. Kalman fi lters are also available
-from MATLAB’s Control System Toolbox.
-83IMPLEMENTING MEAN REVERSION STRATEGIES
-Why are these equations worth highlighting? Because this is a favorite
-model for market makers to update their estimate of the mean price of an
-asset, as Euan Sinclair pointed out (Sinclair, 2010). To make these equations
-more practical, practitioners make further assumptions about the measurement error Ve, which, as you may recall, measures the uncertainty of the observed transaction price. But how can there be uncertainty in the observed
-transaction price? It turns out that we can interpret the uncertainty in such
-a way that if the trade size is large (compared to some benchmark), then the
-uncertainty is small, and vice versa. So Ve in this case becomes a function of t
-as well. If we denote the trade size as T and the benchmark trade size as Tmax,
-then Ve can have the form
- Ve = R(t | t − 1) − ⎛
-⎝
-⎜ ⎞
-⎠
-⎟ T
-T
-1
-max
-(3.20)
-So you can see that if T = Tmax, there is no uncertainty in the observed
-price, and the Kalman gain is 1, and hence the new estimate of the mean
-price m(t) is exactly equal to the observed price! But what should Tmax be? It
-can be some fraction of the total trading volume of the previous day, for example, where the exact fraction is to be optimized with some training data.
-Note the similarity of this approach to the so-called volume-weighted
-average price (VWAP) approach to determine the mean price, or fair value
-of an asset. In the Kalman fi lter approach, not only are we giving more
-weights to trades with larger trade sizes, we are also giving more weights to
-more recent trade prices. So one might compare this to volume and timeweighted average price.
+### R(t | t) = (1 − K(t))R(t | t − 1)
+Why are these equations worth highlighting? Because this is a favorite model for market makers to update their estimate of the mean price of an asset, as Euan Sinclair pointed out (Sinclair, 2010). To make these equations more practical,
+practitioners make further assumptions about the measurement error Ve, which, as you may recall, measures the uncertainty of the observed transaction price. But how can there be uncertainty in the observed transaction price? It turns out that we can interpret the uncertainty in such a way that if the trade size is large (compared to some benchmark), then the uncertainty is small, and vice versa. So Ve in this case becomes a function of t as well. If we denote the trade size as T and the benchmark trade size as Tmax, then Ve can have the form
+### V_e = (R_{t|t-1})((T/$T_max$)-1)
+So you can see that if T = Tmax, there is no uncertainty in the observed price, and the Kalman gain is 1, and hence the new estimate of the mean price m(t) is exactly equal to the observed price! But what should Tmax be? It can be some fraction of the total trading volume of the previous day, for example, where the exact fraction is to be optimized with some training data.
+**Note** the similarity of this approach to the so-called volume-weighted average price (VWAP) approach to determine the mean price, or fair value of an asset. In the Kalman fi lter approach, not only are we giving more weights to trades with larger trade sizes, we are also giving more weights to more recent trade prices. So one might compare this to volume and timeweighted average price.
+## The Danger of Data Errors
+### The Impact on Backtesting
+Data errors fundamentally distort historical testing, but they affect different types of strategies in opposite ways.
+Mean-Reverting Strategies (Inflated Profits): Errors and "outliers" typically artificially inflate the backtest performance of mean-reverting systems.
+### Example:
+If a stock's actual sequential trade prices are $100, $100, and $100, but a bad tick records them as $100, $110, and $100, a mean-reverting backtest will assume it successfully shorted the asset at $110 and covered at $100. This logs a fictitious $10 profit. Because intraday data contains vastly more quotes, the opportunity for these fake, profitable spikes is much higher.
+### Momentum Strategies (Deflated Profits): 
+Conversely, bad ticks usually suppress the backtest performance of momentum strategies.  Example: Using the same fake $110 spike, a momentum backtest would likely "buy" the breakout at $110, only to immediately get stopped out at the true $100 price, recording a fictitious loss. Because this understates rather than overstates performance, it is considered less dangerous than the illusions created in mean-reversion backtests.
+### The Impact on Live Execution
+While backtesting errors create illusions, live data errors create immediate financial losses for all types of strategies.
+If a live data feed flashes an erroneous bid quote of $110, a trading algorithm might instantly fire a short market order to capture the anomaly.  However, because that $110 bid does not actually exist in the order book, the market order will simply execute at the true, lower market price (e.g., $100). This results in instant, unrecoverable slippage and real-world losses. 
+### The Unique Vulnerability of Spread and Arbitrage Trading
+Data errors are exceptionally dangerous when trading pairs or calculating spreads.
+### The Math Behind the Risk:
+Strategies rely on the difference between two quotes. Because a spread is usually a very small number compared to the absolute prices of the underlying assets, even a tiny data error results in a massive percentage distortion of the spread.
+### Example:
+Imagine Stock X has a true bid of $100 and Stock Y has a true ask of $105, making the true spread $5. If a data error causes Stock Y to display an ask of $106, the spread artificially jumps to $6. This $1 error represents a massive 20% increase in the spread's value, which is often more than enough to trigger an erroneous pair trade.
+### Historical Data:
+To prevent backtest manipulation, reputable data vendors use exchange-provided "cancel-and-correct" codes to filter out trades that executed too far from normal market prices.
+### Live Data:
+The author notes from personal experience that relying on standard broker data feeds for live equities pair-trading frequently triggered unexplained losing trades due to bad ticks. Switching to reliable third-party providers or institutional feeds (like Bloomberg) resolved the issue and stopped the erroneous trades.
