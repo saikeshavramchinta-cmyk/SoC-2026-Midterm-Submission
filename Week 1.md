@@ -310,6 +310,14 @@ If the series is mean-reverting, the change in price ($\Delta y_t$) should be ne
 The ADF test assumes the series is a random walk ($\lambda = 0$).
 ### The Result:
 The test outputs a test statistic and a $p$-value. If the $p$-value is very small (typically $< 0.05$), we reject the null hypothesis. This gives us $95\%$ statistical confidence that the series is stationary.
+### Limitations : 
+When a series is stationary but very persistent — like a credit spread that moves slowly and takes months to mean-revert — the ADF frequently mistakes it for a random walk. 
+The test just cannot tell them apart in short samples. 
+
+Quants thereby often  cross-check with the KPSS (Kwiatkowski-Phillips-Schmidt-Shin) test, which works in the opposite direction  
+[**KPSS:** assumes the series *is* stationary until proven otherwise (H₀: stationary)]
+[**ADF:** assumes the series *is* a random walk until proven otherwise (H₀: unit root)
+If both agree, we can be confident. If they conflict, treat the series with caution before building any model
 ## 3. Categorizing the Series using Hurst Exponent
 While the ADF test gives a "yes or no" answer to stationarity, the Hurst Exponent ($H$) provides a continuous measure of a time series' "memory" and helps categorize its behavior.The Hurst Exponent modifies the standard variance equation by introducing a scaling exponent, $H$. It proposes that the variance of log prices scales proportionally to the time lag raised to the power of $2H$:
 ## $$\langle|z(t + \tau) - z(t)|^2\rangle \sim \tau^{2H}$$
