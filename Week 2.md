@@ -1,3 +1,39 @@
+# Week 2
+
+Half-Life of Mean Reversion
+The statistical tests I described for mean reversion or stationarity are very demanding, with their requirements of at least 90 percent certainty. But in practical trading, we can often be profi table with much less certainty. In this section, we shall fi nd another way to interpret the λ coeffi cient in Equation 2.1 so that we know whether it is negative enough to make a trading strategy practical, even if we cannot reject the null hypothesis that its actual value is zero with 90 percent certainty in an ADF test. We shall fi nd that λ is a measure of how long it takes for a price to mean revert.To reveal this new interpretation, it is only necessary to transform the discrete time series Equation 2.1 to a diff erential form so that the changes in prices become infi nitesimal quantities. Furthermore, if we ignore the drift (βt) and the lagged diff erences (Δy(t − 1), …, Δy(t − k)) in Equation 2.1, then it becomes recognizable in stochastic calculus as the Ornstein-Uhlenbeck formula for mean-reverting process:
+### dy(t) = (λy(t − 1) + μ)dt + dε (2.5)
+where dε is some Gaussian noise. In the discrete form of 2.1, linear regression of Δy(t) against y(t − 1) gave us λ, and once determined, this value of λ
+carries over to the diff erential form of 2.5. But the advantage of writing the
+Example 2.3: Using the Variance Ratio Test for Stationarity
+The vratiotest from MATALB Econometric Toolbox is applied to the
+same USD.CAD price series y that have been used in the previous
+examples in this chapter. The outputs are h and pValue: h = 1 means
+rejection of the random walk hypothesis at the 90 percent confi dence
+level, h = 0 means it may be a random walk. pValue gives the
+probability that the null (random walk) hypothesis is true.
+[h,pValue]=vratiotest(log(y));
+We fi nd that h = 0 and pValue = 0.367281 for USD.CAD, indicating
+that there is a 37 percent chance that it is a random walk, so we
+cannot reject this hypothesis.
+47THE BASICS OF MEAN REVERSION
+equation in the diff erential form is that it allows for an analytical solution for
+the expected value of y(t):
+ E( y(t)) = y0exp(λt) − μ/λ(1 − exp(λt)) (2.6)
+Remembering that λ is negative for a mean-reverting process, this tells us
+that the expected value of the price decays exponentially to the value −μ/λ
+with the half-life of decay equals to −log(2)/λ. This connection between a
+regression coeffi cient λ and the half-life of mean reversion is very useful
+to traders. First, if we fi nd that λ is positive, this means the price series is
+not at all mean reverting, and we shouldn’t even attempt to write a meanreverting strategy to trade it. Second, if λ is very close to zero, this means
+the half-life will be very long, and a mean-reverting trading strategy will not
+be very profi table because we won’t be able to complete many round-trip
+trades in a given time period. Third, this λ also determines a natural time
+scale for many parameters in our strategy. For example, if the half life is 20
+days, we shouldn’t use a look-back of 5 days to compute a moving average
+or standard deviation for a mean-reversion strategy. Often, setting the lookback to equal a small multiple of the half-life is close to optimal, and doing
+so will allow us to avoid brute-force optimization of a free parameter based
+on the performance of a trading strategy. We will demonstrate how to compute half-life in Example 2.4.
 ## Reading Assignment
 ## Chapter 3 from Ernie Chan's Book
 ## 1. Price Spreads vs. Log Price Spreads vs. Ratios
