@@ -119,3 +119,51 @@ signal :  move aggressively towards the new quote.
 If the quote instead comes from a thinly traded OTC desk (noisy instrument) and your model was already pretty confident (low $P_{t|t-1}$) - the gain becomes small - 
 signal : stick with your prior - barely move.
 The Kalman gain is the filter automatically doing this cost - benefit calculation at every single time step - no human judgement required.
+## Kalman Filter as Market-Making Model
+There is another noteworthy application of Kalman filter to a meanreverting strategy. In this application we are concerned with only one mean-reverting price series; we are not concerned with finding the hedge ratio between two cointegrating price series. However, as before, we still want to fi nd the mean price and the standard deviation of the price series for our mean reversion trading. So the mean price m(t) is the hidden variable here, and the price y(t) is the observable variable. The measurement equation in this case is trivial:
+ y(t) = m(t) + ∋(t)  (“Measurement equation”)
+with the same state transition equation
+ m(t) = m(t − 1) + ω(t − 1). (“State transition”) (3.15)
+So the state update equation 3.11 is just
+ m(t | t) = m(t | t − 1) + K(t)( y(t) − m(t | t − 1)). (“State update”) (3.16)
+(This may be the time to review Box 3.1 if you skipped it on fi rst reading.)
+The variance of the forecast error is
+ Q(t) = Var(m(t)) + Ve. (3.17)
+The Kalman gain is
+ K(t) = R(t | t − 1)/(R(t | t − 1) + Ve), (3.18)
+and the state variance update is
+ R(t | t) = (1 − K(t))R(t | t − 1). (3.19)
+Example 3.3 (Continued)
+Instead of coding the Kalman fi lter yourself as we demonstrated,
+you can also use many free open-source MATLAB codes available.
+One such package can be found at www.cs.ubc.ca/~murphyk
+/Software/Kalman/kalman.html. Kalman fi lters are also available
+from MATLAB’s Control System Toolbox.
+83IMPLEMENTING MEAN REVERSION STRATEGIES
+Why are these equations worth highlighting? Because this is a favorite
+model for market makers to update their estimate of the mean price of an
+asset, as Euan Sinclair pointed out (Sinclair, 2010). To make these equations
+more practical, practitioners make further assumptions about the measurement error Ve, which, as you may recall, measures the uncertainty of the observed transaction price. But how can there be uncertainty in the observed
+transaction price? It turns out that we can interpret the uncertainty in such
+a way that if the trade size is large (compared to some benchmark), then the
+uncertainty is small, and vice versa. So Ve in this case becomes a function of t
+as well. If we denote the trade size as T and the benchmark trade size as Tmax,
+then Ve can have the form
+ Ve = R(t | t − 1) − ⎛
+⎝
+⎜ ⎞
+⎠
+⎟ T
+T
+1
+max
+(3.20)
+So you can see that if T = Tmax, there is no uncertainty in the observed
+price, and the Kalman gain is 1, and hence the new estimate of the mean
+price m(t) is exactly equal to the observed price! But what should Tmax be? It
+can be some fraction of the total trading volume of the previous day, for example, where the exact fraction is to be optimized with some training data.
+Note the similarity of this approach to the so-called volume-weighted
+average price (VWAP) approach to determine the mean price, or fair value
+of an asset. In the Kalman fi lter approach, not only are we giving more
+weights to trades with larger trade sizes, we are also giving more weights to
+more recent trade prices. So one might compare this to volume and timeweighted average price.
