@@ -341,9 +341,9 @@ The series is mean-reverting (the multi-period variance is smaller than a random
 The series is trending.
 ### Statistical Importance:
 While the Hurst Exponent provides a measurement, the Variance Ratio is often used as a formal statistical test (often associated with Lo and MacKinlay's 1988 paper, as noted in the book). It allows quants to generate a test statistic and $p$-value to determine if they can confidently reject the random walk hypothesis. 
-## 5. The Half-Life of Mean Reversion
+## 5. The Half-Life of Mean Reversion(**More about half-life in Week 2**)
 Identifying a stationary series is useless if it takes a decade for the price to revert to its mean. We need to calculate the half-life—the expected time it takes for the price to return exactly halfway to its historical average.This book uses the continuous-time Ornstein-Uhlenbeck process to model this. By running a linear regression of the price changes against the lagged prices, we find the slope/coefficient ($\lambda$). We then plug $\lambda$ into the half-life formula:
- ### $t_{1/2}$ = $\frac{-\ln(2)}{\lambda}$
+ ### $t_{1/2}$ = $\frac{-\ln(2)}{\lambda}$ 
 ### Why it is crucial:
 The half-life dictates our holding period. If $t_{1/2}$ is 5 days, it is a highly actionable strategy. If $t_{1/2}$ is 250 days, the capital requirement and opportunity cost are too high, and the structural "regime" of the market will likely change before we can exit the trade profitably.
 ## 6. A Linear Mean Reverting Trading Strategy
