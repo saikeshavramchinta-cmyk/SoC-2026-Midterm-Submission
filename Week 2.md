@@ -1,14 +1,18 @@
 # Week 2
-## Correlation(pifall?)
+
+## Concepts that I've learnt
+## Half-Life of Mean Reversion
+We shall find another way to interpret the λ coefficient so that we know whether it is negative enough to make a trading strategy practical, even if we cannot reject the null hypothesis that its actual value is zero with 90 percent certainty in an ADF test. We shall find that λ is a measure of how long it takes for a price to mean revert.To reveal this new interpretation, it is only necessary to transform the discrete time series Equation to a differential form so that the changes in prices become infinitesimal quantities. Furthermore, if we ignore the drift (βt) and the lagged differences (Δy(t − 1), …, Δy(t − k)) in Equation **$$Δy(t) = λy(t − 1) + μ + βt + α_1Δy(t − 1) + … + α_kΔy(t − k) + ∋_t$$**, then it becomes recognizable in stochastic calculus as the Ornstein-Uhlenbeck formula for mean-reverting process:
+### $$dy(t) = (λy(t − 1) + μ)dt + dε$$ 
+where dε is some Gaussian noise. In the discrete form of **Δy(t) = λy(t − 1) + μ + βt + α1Δy(t − 1) + … + αkΔy(t − k) + ∋
+t**, linear regression of Δy(t) against y(t − 1) gave us λ, and once determined, this value of λ carries over to the differential form of(**i.e Ornstein-Uhlenbeck formula**). But the advantage of writing the equation in the differential form is that it allows for an analytical solution for the expected value of y(t):
+### $$E( y(t)) = y_0exp(λt) − μ/λ(1 − exp(λt))$$
+Remembering that λ is negative for a mean-reverting process, this tells us that the expected value of the price decays exponentially to the value $−μ/λ$ with the half-life of decay equals to $−log(2)/λ$. First, if we find that λ is positive, this means the price series is not at all mean reverting, and we shouldn’t even attempt to write a mean reverting strategy to trade it. Second, if λ is very close to zero, this means the half-life will be very long, and a mean-reverting trading strategy will not be very profitable because we won’t be able to complete many round-trip trades in a given time period. Third, this λ also determines a natural time scale for many parameters in our strategy. For example, if the half life is 20 days, we shouldn’t use a look-back of 5 days to compute a moving average or standard deviation for a mean-reversion strategy. Often, setting the lookback to equal a small multiple of the half-life is close to optimal, and doing so will allow us to avoid brute-force optimization of a free parameter based on the performance of a trading strategy.
+
+## Correlation(pitfall?)
 A common pitfall in quantitative finance is assuming that two assets with a high correlation coefficient (like Pearson's 
 ρ) can be traded as a mean-reverting pair. Correlation only measures the linear relationship between two variables over a specific time frame. Two tech stocks might both be trending upward in a bull market, yielding a correlation of 0.95. However, if their price difference (the spread) is not bounded, they can eventually diverge permanently, blowing up our account.
 
-## Half-Life of Mean Reversion
-The statistical tests I described for mean reversion or stationarity are very demanding, with their requirements of at least 90 percent certainty. But in practical trading, we can often be profi table with much less certainty. In this section, we shall fi nd another way to interpret the λ coefficient in Equation 2.1 so that we know whether it is negative enough to make a trading strategy practical, even if we cannot reject the null hypothesis that its actual value is zero with 90 percent certainty in an ADF test. We shall find that λ is a measure of how long it takes for a price to mean revert.To reveal this new interpretation, it is only necessary to transform the discrete time series Equation 2.1 to a differential form so that the changes in prices become infinitesimal quantities. Furthermore, if we ignore the drift (βt) and the lagged differences (Δy(t − 1), …, Δy(t − k)) in Equation 2.1, then it becomes recognizable in stochastic calculus as the Ornstein-Uhlenbeck formula for mean-reverting process:
-### dy(t) = (λy(t − 1) + μ)dt + dε 
-where dε is some Gaussian noise. In the discrete form of 2.1, linear regression of Δy(t) against y(t − 1) gave us λ, and once determined, this value of λ carries over to the differential form of 2.5. But the advantage of writing the equation in the differential form is that it allows for an analytical solution for the expected value of y(t):
-### E( y(t)) = y0exp(λt) − μ/λ(1 − exp(λt)) 
-Remembering that λ is negative for a mean-reverting process, this tells us that the expected value of the price decays exponentially to the value −μ/λ with the half-life of decay equals to −log(2)/λ. This connection between a regression coefficient λ and the half-life of mean reversion is very useful to traders. First, if we find that λ is positive, this means the price series is not at all mean reverting, and we shouldn’t even attempt to write a mean reverting strategy to trade it. Second, if λ is very close to zero, this means the half-life will be very long, and a mean-reverting trading strategy will not be very profitable because we won’t be able to complete many round-trip trades in a given time period. Third, this λ also determines a natural time scale for many parameters in our strategy. For example, if the half life is 20 days, we shouldn’t use a look-back of 5 days to compute a moving average or standard deviation for a mean-reversion strategy. Often, setting the lookback to equal a small multiple of the half-life is close to optimal, and doing so will allow us to avoid brute-force optimization of a free parameter based on the performance of a trading strategy. We will demonstrate how to compute half-life in Example 2.4.
 ## Reading Assignment
 ## Chapter 3 from Ernie Chan's Book
 ## 1. Price Spreads vs. Log Price Spreads vs. Ratios
@@ -21,9 +25,7 @@ Cointegrates log-transformed price points ($log(q) = \sum h_i log(y_i)$). Here, 
 Trading a raw ratio ($y_1/y_2$) is highly practical for assets that lack absolute long-term cointegration but exhibit tight, short-term mean reversion. It naturally standardizes valuation across massive pricing shifts without demanding adaptive hedge calculations.
 ### The Problem with Theoretical Mean Reversion
 In purely theoretical, continuous linear mean-reversion models, a strategy dictates that our position size should be directly proportional to how far the price has deviated from its mean.
-
 While mathematically elegant, this is practically impossible to execute. It requires:
-
 Constant, Infinitesimal Rebalancing: we would have to constantly buy or sell tiny fractions of shares every second as the price fluctuates.
 
 Unlimited Capital: If the spread diverges to infinity, the linear model dictates we must keep buying all the way down, requiring infinite capital.
@@ -37,11 +39,11 @@ we then define specific thresholds based on the Z-score (the number of standard 
 
 The Entry Z-Score: we set a threshold to trigger a trade. For example, if the entryZscore is 2, we:
 
-Go Short: When the price crosses above the Upper Band (Moving Average + 2 Standard Deviations).
+**Go Short:** When the price crosses above the Upper Band (Moving Average + 2 Standard Deviations).
 
-Go Long: When the price crosses below the Lower Band (Moving Average - 2 Standard Deviations).
+**Go Long:** When the price crosses below the Lower Band (Moving Average - 2 Standard Deviations).
 
-The Exit Z-Score: we set a threshold to close the trade. Usually, traders do not wait for the price to hit the opposite band. Instead, they set the exitZscore near 0.
+**The Exit Z-Score:** we set a threshold to close the trade. Usually, traders do not wait for the price to hit the opposite band. Instead, they set the exitZscore near 0.
 
 Exit: we close out our long or short position as soon as the price reverts back to the Moving Average (or a small threshold near it, like 0.5 standard deviations).
 
