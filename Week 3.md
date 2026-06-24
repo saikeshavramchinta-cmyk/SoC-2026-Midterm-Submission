@@ -1,3 +1,4 @@
+# Week 3
 ## What is MACD?
 MACD (Moving Average Convergence/Divergence) is a popular tool traders use to figure out the momentum of a stock's price. Basically, it helps you see if a trend is getting stronger or weaker, which can help you decide the best time to buy or sell.The Three Main Pieces of MACDInstead of looking just at the daily price, MACD looks at averages over time. It has three main parts you'll see on a trading chart:
 ## The MACD Line:
@@ -11,9 +12,9 @@ If you are curious how it's calculated behind the scenes, it simply subtracts a 
 ### $$MACD=EMA_{12}-EMA_{26}$$
 (EMA stands for Exponential Moving Average, which is just a fancy way of saying it cares more about recent prices than older ones).How Traders Read the SignalsTraders look at how these lines interact to make decisions. Here are the three main things they watch for:
 ### Crossovers (The most common signal):
-### Buy Signal (Bullish): The MACD line crosses above the Signal line.
-### Sell Signal (Bearish): The MACD line crosses below the Signal line.
-Divergence (The warning sign): If the stock price is going up, but the MACD lines are going down (or vice versa), it means the trend is losing steam and might reverse soon.
+**Buy Signal (Bullish)**: The MACD line crosses above the Signal line.
+**Sell Signal (Bearish)**: The MACD line crosses below the Signal line.
+**Divergence (The warning sign):** If the stock price is going up, but the MACD lines are going down (or vice versa), it means the trend is losing steam and might reverse soon.
 ### Rapid Rises or Falls:
 If the MACD line suddenly spikes way up or drops way down away from the baseline, the stock is likely pushed too far ("overbought" or "oversold") and will soon snap back to normal.
 ## Why MACD is not a perfect indicator?
@@ -28,7 +29,7 @@ RSI (Relative Strength Index) is essentially a momentum speedometer for a stock.
 Traders use RSI to spot when a stock is stretched like a rubber band and is due to snap back to reality. They focus on two key zones:
 **Over 70 (Overbought)**: The stock has gone up too fast. Buyers might be exhausted, and a price drop or pullback could be coming (a potential sell signal).
 **Under 30 (Oversold)**: The stock has dropped too fast. Sellers might be tapped out, and the price could be ready to bounce back up (a potential buy signal).
-## How Traders Actually Use It
+## How Traders Actually Use It?
 While 30 and 70 are the standard triggers, smart traders look a bit deeper:
 Adjusting for Trends: In a massive bull market (uptrend), a stock might never drop all the way to 30. Traders might consider an RSI of 40 or 50 as the "oversold" buying opportunity. Conversely, in a strong downtrend, an RSI of 50 or 60 might act as the "overbought" ceiling.
 ## Divergence (The Warning Sign):
@@ -52,7 +53,7 @@ Here is how traders practically apply this information to make decisions:
 **Confirming Breakouts (The "Real Deal"):**
 If a stock finally pushes past a price it has been stuck under for months, check the volume. If volume is high, the breakout is likely legitimate and will continue. If volume is low, it's probably a "fakeout" and the price will drop back down.
 
-If a stock's price is climbing higher and higher, but the daily volume is slowly shrinking, watch out. That means fewer and fewer buyers are willing to pay those high prices. The trend is losing steam and a reversal is likely imminent.
+**If a stock's price is climbing higher and higher, but the daily volume is slowly shrinking, watch out. That means fewer and fewer buyers are willing to pay those high prices. The trend is losing steam and a reversal is likely imminent.**
 
 Timing Entries and Exits: Smart traders wait to buy until they see high volume supporting an upward trend, and they get ready to sell or take profits when volume starts drying up.
 
