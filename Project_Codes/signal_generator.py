@@ -3,9 +3,8 @@ from indicators import calculate_macd, calculate_rsi, calculate_bollinger_bands
 from filters import apply_volume_filter
 
 def generate_signals(df):
-    """
-    Generates trading signals using Bollinger Bands, MACD, RSI, and Volume Filters.
-    """
+    
+    # Generates trading signals using Bollinger Bands, MACD, RSI, and Volume Filters.
     # 1. Run all indicator math and filter sets on our dataframe
     df = calculate_macd(df)
     df = calculate_rsi(df)
@@ -38,7 +37,7 @@ def generate_signals(df):
     return df
 
 def calculate_performance(df):
-    """Calculates basic win rate metrics on the strategy signals."""
+    # Calculates basic win rate metrics on the strategy signals
     df['Next_Day_Price_Change'] = df['Close'].shift(-1) - df['Close']
     trades = df[df['Signal'] != 0].copy()
     
@@ -69,7 +68,6 @@ def main():
         final_df = generate_signals(data_from_file)
         calculate_performance(final_df)
         
-        # Check against grading keys or target metrics if they exist in file
         original_column_name = 'Original_Signal' 
         if original_column_name in final_df.columns:
             matching_rows = (final_df['Signal'] == final_df[original_column_name]).sum()
@@ -80,7 +78,4 @@ def main():
             print(f"Matches found: {matching_rows} out of {total_rows} records")
             print(f"Match Accuracy: {match_accuracy:.2f}%")
             
-    except FileNotFoundError:
-        print(f"\n[Execution Error] Local target file '{file_path}' could not be located.")
-
     main()
