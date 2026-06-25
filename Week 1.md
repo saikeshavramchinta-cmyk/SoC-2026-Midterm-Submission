@@ -1,7 +1,7 @@
 # Week 1
 I have included both the concepts that I've learnt from Week 1 and the assignments(reading/coding) given for week 1 here
 
-## Concepts that I've learnt during the Week 1
+## Concepts learnt during Week 1
 ## 1. What is a time series ?
 A time series is simply a sequence of data points indexed in chronological order: $X_t$ for $t \in \{1, 2, \dots, T\}$.Examples include a company’s quarterly sales, daily stock returns, or monthly currency exchange rates. 
 Unlike standard cross-sectional data, time-series observations are inherently dependent on their own past.
