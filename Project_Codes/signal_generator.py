@@ -1,114 +1,94 @@
 import pandas as pd
-from scipy.io import loadmat  # Required to read MATLAB .mat files
+from scipy.io import loadmat
 
-# Import packages from our other local files
+# Import our custom indicators
 from indicators import calculate_macd, calculate_rsi, calculate_bollinger_bands
 from filters import apply_volume_filter
 
 def generate_signals(df):
-    """
-    Generates trading signals using Bollinger Bands, MACD, RSI, and Volume Filters.
-    """
-    # 1. Run all indicator math and filter sets on our dataframe
+    # Apply all indicators to the dataframe
     df = calculate_macd(df)
     df = calculate_rsi(df)
     df = calculate_bollinger_bands(df)
     df = apply_volume_filter(df)
     
-    # 2. Set default position column to Hold (0)
+    # Default everything to hold
     df['Signal'] = 0
     
-    # 3. Formulate Confluence Strategy Rules
-    
-    # BUY: Price is low (<= BB_Lower) AND RSI < 40 AND high volume AND MACD upward crossover
-    buy_condition = (
+    # Buy logic: price near/below lower band, oversold RSI, high volume, and MACD crossing up
+    buy_cond = (
         (df['Close'] <= df['BB_Lower']) & 
         (df['RSI'] < 40) & 
-        (df['Volume_Filter_Pass'] == True) &
+        (df['Volume_Filter_Pass']) &  # no need for == True
         (df['MACD_Line'] > df['Signal_Line']) & 
         (df['MACD_Line'].shift(1) <= df['Signal_Line'].shift(1))
     )
     
-    # SELL: Price touches overextended band (>= BB_Upper) OR MACD breaks downward
-    sell_condition = (
+    # Sell logic: price hits upper band OR MACD crosses down (momentum dying)
+    sell_cond = (
         (df['Close'] >= df['BB_Upper']) | 
         ((df['MACD_Line'] < df['Signal_Line']) & (df['MACD_Line'].shift(1) >= df['Signal_Line'].shift(1)))
     )
     
-    # 4. Map the buy and sell conditions into our Signal tracker
-    df.loc[buy_condition, 'Signal'] = 1
-    df.loc[sell_condition, 'Signal'] = -1
+    df.loc[buy_cond, 'Signal'] = 1
+    df.loc[sell_cond, 'Signal'] = -1
     
     return df
 
-def calculate_performance(df):
-    """Calculates basic win rate metrics on the strategy signals."""
-    df['Next_Day_Price_Change'] = df['Close'].shift(-1) - df['Close']
+def get_performance(df):
+    # Calculate next day's price change to see if our trade was right
+    df['next_day_change'] = df['Close'].shift(-1) - df['Close']
     trades = df[df['Signal'] != 0].copy()
     
     if trades.empty:
-        print("No strategy entry or exit triggers identified in this dataset.")
+        print("No trades triggered.")
         return
         
-    trades['Is_Win'] = (trades['Signal'] * trades['Next_Day_Price_Change']) > 0
+    # It's a win if the signal direction matches the price movement direction
+    trades['is_win'] = (trades['Signal'] * trades['next_day_change']) > 0
     
-    total_trades = len(trades)
-    winning_trades = trades['Is_Win'].sum()
-    win_rate = (winning_trades / total_trades) * 100
+    total = len(trades)
+    wins = trades['is_win'].sum()
+    win_rate = (wins / total) * 100
     
-    print("\n=== CONFLUENCE STRATEGY PERFORMANCE ===")
-    print(f"Total Trades Taken: {total_trades}")
-    print(f"Winning Trades: {winning_trades}")
-    print(f"Strategy Win Rate: {win_rate:.2f}%\n")
+    print(f"Total trades: {total}")
+    print(f"Wins: {wins}")
+    print(f"Win Rate: {win_rate:.2f}%")
 
 def main():
-    # Here we should add our own .mat type dataset by removing the market_data.mat
-    file_path = "market_data.mat" 
+    # Change this to whatever your dataset is named
+    filename = "market_data.mat" 
     
     try:
-        print(f"Opening and parsing MATLAB data from: {file_path}")
+        # Load the .mat file
+        mat = loadmat(filename)
         
-        # 1. Load the .mat file into a Python dictionary
-        mat_data = loadmat(file_path)
+        # Extract and flatten the matrices into standard 1D pandas columns
+        df = pd.DataFrame({
+            'Close': mat['Close'].flatten(),
+            'Volume': mat['Volume'].flatten()
+        })
         
-        # 2. Extract the arrays and build our DataFrame
-        try:
-            # MATLAB variables import as 2D arrays (matrices). 
-            # .flatten() converts them into standard 1D lists for pandas.
-            close_prices = mat_data['Close'].flatten()
-            volumes = mat_data['Volume'].flatten()
-            
-            data_from_file = pd.DataFrame({
-                'Close': close_prices,
-                'Volume': volumes
-            })
-            
-            # If the .mat file also contains the original signals for grading, pull them in too
-            if 'Original_Signal' in mat_data:
-                data_from_file['Original_Signal'] = mat_data['Original_Signal'].flatten()
-                
-        except KeyError as e:
-            print(f"\n[Data Error] The .mat file is missing a required variable: {e}")
-            print("Please ensure your MATLAB workspace saved variables specifically named 'Close' and 'Volume'.")
-            return
-        
-        # 3. Run our automated signal compilation engine
-        final_df = generate_signals(data_from_file)
-        calculate_performance(final_df)
-        
-        # 4. Check against grading keys or target metrics if they exist in file
-        original_column_name = 'Original_Signal' 
-        if original_column_name in final_df.columns:
-            matching_rows = (final_df['Signal'] == final_df[original_column_name]).sum()
-            total_rows = len(final_df)
-            match_accuracy = (matching_rows / total_rows) * 100
-            
-            print("=== ACCURACY AGAINST ORIGINAL ===")
-            print(f"Matches found: {matching_rows} out of {total_rows} records")
-            print(f"Match Accuracy: {match_accuracy:.2f}%")
+        # Grab the target/original signals if they are included in the file
+        if 'Original_Signal' in mat:
+            df['Original_Signal'] = mat['Original_Signal'].flatten()
             
     except FileNotFoundError:
-        print(f"\n[Execution Error] Local target file '{file_path}' could not be located.")
+        print(f"Error: Could not find {filename}. Make sure it's in the same directory.")
+        return
+    except KeyError as e:
+        print(f"Error: Missing expected variable in the .mat file - {e}")
+        return
+    
+    # Run the engine
+    final_df = generate_signals(df)
+    get_performance(final_df)
+    
+    # Compare against original signals if we have them
+    if 'Original_Signal' in final_df.columns:
+        matches = (final_df['Signal'] == final_df['Original_Signal']).sum()
+        total = len(final_df)
+        print(f"Matches against original: {matches}/{total} ({(matches/total)*100:.2f}%)")
 
 if __name__ == "__main__":
     main()
