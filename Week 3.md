@@ -139,3 +139,7 @@ Panicking over a one-day spike: Sometimes volume spikes for a weird, temporary r
 Trusting low-volume price moves: Don't get excited if a penny stock or a highly illiquid stock jumps 10% on a random Tuesday. If the volume is tiny, that price change isn't sustainable.
 
 Ignoring everything else: Volume is a fantastic tool, but it shouldn't be used in isolation. It works best when combined with price patterns and other indicators like the RSI and MACD we looked at earlier!
+
+## Coding Assignment
+I have written the codes in a seperate **Project_Codes** folder.
+
