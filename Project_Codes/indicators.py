@@ -28,3 +28,4 @@ def calculate_bollinger_bands(df, period=20, num_std=2):
     df['BB_Upper'] = df['BB_Middle'] + (num_std * rolling_std)
     df['BB_Lower'] = df['BB_Middle'] - (num_std * rolling_std)
     return df
+    
