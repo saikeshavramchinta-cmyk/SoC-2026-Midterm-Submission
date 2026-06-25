@@ -1,6 +1,6 @@
 # Week 2
 
-## Concepts that I've learnt
+## Concepts learnt during Week 2
 ## Half-Life of Mean Reversion
 We shall find another way to interpret the λ coefficient so that we know whether it is negative enough to make a trading strategy practical, even if we cannot reject the null hypothesis that its actual value is zero with 90 percent certainty in an ADF test. We shall find that λ is a measure of how long it takes for a price to mean revert.To reveal this new interpretation, it is only necessary to transform the discrete time series Equation to a differential form so that the changes in prices become infinitesimal quantities. Furthermore, if we ignore the drift (βt) and the lagged differences (Δy(t − 1), …, Δy(t − k)) in Equation **$$Δy(t) = λy(t − 1) + μ + βt + α_1Δy(t − 1) + … + α_kΔy(t − k) + ∋_t$$**, then it becomes recognizable in stochastic calculus as the Ornstein-Uhlenbeck formula for mean-reverting process:
 ### $$dy(t) = (λy(t − 1) + μ)dt + dε$$ 
