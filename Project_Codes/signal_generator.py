@@ -57,7 +57,6 @@ def calculate_performance(df):
     print(f"Strategy Win Rate: {win_rate:.2f}%\n")
 
 def main():
-    """Main execution engine layout."""
     file_path = "market_data.csv" 
     
     try:
