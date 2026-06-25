@@ -3,7 +3,7 @@
 ## Reading Assignment
 ## What is MACD?
 MACD (Moving Average Convergence/Divergence) is a popular tool traders use to figure out the momentum of a stock's price. Basically, it helps you see if a trend is getting stronger or weaker, which can help you decide the best time to buy or sell.
-## The Three Main Pieces of MACD**
+**The Three Main Pieces of MACD**
 Instead of looking just at the daily price, MACD looks at averages over time. It has three main parts you'll see on a trading chart:
 ## The MACD Line:
 This is the heart of the tool. It compares short-term price momentum against long-term price momentum.
