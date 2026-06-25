@@ -13,3 +13,4 @@ We look at the RSI to verify if it is deeply oversold (below 30) or if the RSI i
 We wait for a bullish crossover on the MACD to confirm that the broader momentum is actually turning upwards rather than just experiencing a temporary bounce.
 ## Confirming with (Volume Filter):
 We check if there is an expansion in trading volume coinciding with these signals. High volume confirms that buyers are stepping in heavily, giving us the green light to enter a trade with higher confidence.
+### I have also implemented the code for Win Rate in the signal_generator.py to determine how well our strategy performs for a given dataset.
