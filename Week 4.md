@@ -77,7 +77,30 @@ Beta is an indicator of the price volatility of a stock or other asset in compar
 The market that the stock trades in, such as the S&P 500, always has a beta of 1.0. A number above one indicates that the stock’s price swings more, up or down, than the market in general. A number below one indicates that its price is more stable.1
 
 The current beta of any stock can usually be found on the summary page of its listing on any financial website or stock trading site.
+## How Beta Works
+A beta coefficient shows the volatility of an individual stock compared to the systematic risk of the entire market.
 
+Beta represents the slope of the line through a regression of data points. Each point represents an individual stock’s returns against the market in finance.
+
+Beta effectively describes the activity of a security’s returns as it responds to swings in the market. It is used in the capital asset pricing model (CAPM), which describes the relationship between systematic risk and expected return for assets. The CAPM is used to price risky securities and to estimate the expected returns of assets, considering the risk of those assets and the cost of capital.
+## Calculating Beta
+A security’s beta is calculated by dividing the product of the covariance of the security’s returns and the market’s returns by the variance of the market’s returns over a specified period. The calculation helps investors understand whether a stock moves in the same direction as the rest of the market. It also provides insights into how volatile or how risky a stock is relative to the rest of the market.
+
+The market used as a benchmark should be related to the stock for beta to provide useful insight. The beta of a bond exchange-traded fund (ETF) relative to the S&P 500 would not be helpful to an investor, because bonds and stocks are too distinct to compare.
+Beta coefficient(β)= 
+Variance(R m)Covariance(R_e,R_m)
+​where:
+R_e = the return on an individual stock
+R_m = the return on the overall market
+Covariance = how changes in a stock’s returns are related to changes in the market’s returns
+Variance = how far the market’s data points spread out from their average value
+## Beta Values
+Beta equal to 1: A stock with a beta of 1.0 means that its price activity correlates with the market. Adding a stock to a portfolio with a beta of 1.0 doesn’t add any risk to the portfolio, but it also doesn’t increase the likelihood that the portfolio will provide an excess return.
+Beta less than 1: A beta value less than 1.0 means that the security is less volatile than the market. Including this stock in a portfolio makes it less risky than the same portfolio without the stock. Utility stocks often have low betas because they move more slowly than market averages.
+Beta greater than 1: A beta greater than 1.0 indicates that the security’s price is theoretically more volatile than the market. If a stock’s beta is 1.2, it is assumed to be 20% more volatile than the market. Technology stocks tend to have higher betas than the market benchmark. Adding the stock to a portfolio will increase the portfolio’s risk but may also increase its return.
+Negative beta: A beta of -1.0 means that the stock is inversely correlated to the market benchmark on a 1:1 basis. Put options and inverse ETFs are designed to have negative betas. There are also a few industry groups, like gold miners, where a negative beta is common.
+​The Bottom Line
+Beta (β) is the second letter of the Greek alphabet. It’s used to measure the volatility of a security or portfolio compared to the broader market, such as the S&P 500, which has a beta of 1.0. A beta of 1.0 shows that a stock has been as volatile as the broader market. Betas larger than 1.0 indicate greater volatility, and betas less than 1.0 indicate less volatility.
 
 
 ​
