@@ -99,7 +99,7 @@ Beta equal to 1: A stock with a beta of 1.0 means that its price activity correl
 Beta less than 1: A beta value less than 1.0 means that the security is less volatile than the market. Including this stock in a portfolio makes it less risky than the same portfolio without the stock. Utility stocks often have low betas because they move more slowly than market averages.
 Beta greater than 1: A beta greater than 1.0 indicates that the security’s price is theoretically more volatile than the market. If a stock’s beta is 1.2, it is assumed to be 20% more volatile than the market. Technology stocks tend to have higher betas than the market benchmark. Adding the stock to a portfolio will increase the portfolio’s risk but may also increase its return.
 Negative beta: A beta of -1.0 means that the stock is inversely correlated to the market benchmark on a 1:1 basis. Put options and inverse ETFs are designed to have negative betas. There are also a few industry groups, like gold miners, where a negative beta is common.
-​The Bottom Line
+​## The Bottom Line
 Beta (β) is the second letter of the Greek alphabet. It’s used to measure the volatility of a security or portfolio compared to the broader market, such as the S&P 500, which has a beta of 1.0. A beta of 1.0 shows that a stock has been as volatile as the broader market. Betas larger than 1.0 indicate greater volatility, and betas less than 1.0 indicate less volatility.
 
 
