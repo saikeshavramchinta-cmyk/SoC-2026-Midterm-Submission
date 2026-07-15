@@ -104,4 +104,3 @@ Beta (β) is the second letter of the Greek alphabet. It’s used to measure the
 
 
 ​
-
