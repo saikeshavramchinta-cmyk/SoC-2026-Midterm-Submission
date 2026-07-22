@@ -1,4 +1,4 @@
-*Reading Assignment*
+**Reading Assignment**
 **Capital Asset Pricing Model(CAPM)**
 ## What Is the Capital Asset Pricing Model (CAPM)?
 The capital asset pricing model (CAPM) describes the relationship between systematic risk, or the general perils of investing, and expected return for assets, particularly stocks. It is a finance model that establishes a linear relationship between the required return on an investment and risk.
@@ -6,14 +6,14 @@ The capital asset pricing model (CAPM) describes the relationship between system
 CAPM is based on the relationship between an asset’s beta, the risk-free rate (typically the Treasury bill rate), and the equity risk premium, or the expected return on the market minus the risk-free rate.
 
 CAPM evolved as a way to measure this systematic risk. It is widely used throughout finance for pricing risky securities and generating expected returns for assets, given the risk of those assets and cost of capital.
-ER_i=R_f + β_i*(R_m - R_f)
+### $ER_i=R_f + β_i(R_m - R_f)$
 ​​
 where:
-ER_i = Expected return of investment
-R_f = Risk-free rate
-β_i = Beta of the investment
-(ER_m−R_f) = Market Risk Premium
-​CAPM Example
+### $ER_i$ = Expected return of investment
+### $R_f$ = Risk-free rate
+### $β_i$ = Beta of the investment
+### $(ER_m−R_f)$ = Market Risk Premium
+## CAPM Example
 Imagine an investor is contemplating a stock valued at $100 per share today that pays a 3% annual dividend. Say this stock has a beta compared with the market of 1.3, which means it is more volatile than a broad market portfolio (i.e., the S&P 500 Index). Also, assume that the risk-free rate is 3% and this investor expects the market to rise in value by 8% per year.
 
 The expected return of the stock based on the CAPM formula is 9.5%:
@@ -34,11 +34,6 @@ Including beta in the formula assumes that risk can be measured by a stock’s p
 
 The CAPM also assumes that the risk-free rate will remain constant over the discounting period. Assume in the previous example that the interest rate on U.S. Treasury bonds rose to 5% or 6% during the 10-year holding period. An increase in the risk-free rate also increases the cost of the capital used in the investment and could make the stock look overvalued.
 
-1960s
-The period when the CAPM was conceived.2
-Fama, Eugene F., and Kenneth R. French, via University of Michigan. “The Capital Asset Pricing Model: Theory and Evidence.” Journal of Economic Perspectives, vol. 18, no. 3, 2004, pp. 25–46.
-
-
 ## Estimating the Risk Premium
 The market portfolio used to find the market risk premium is only a theoretical value and is not an asset that can be purchased or invested in as an alternative to the stock. Most of the time, investors will use a major stock index, like the S&P 500, to substitute for the market, which is an imperfect comparison.
 
@@ -57,16 +52,16 @@ When using a generated alpha calculation, it is important to understand the calc
 
 Alpha can also refer to the abnormal rate of return on a security or portfolio in excess of what would be predicted by an equilibrium model like CAPM. In this instance, a CAPM might aim to estimate returns for investors at various points along an efficient frontier. The CAPM analysis might estimate that a portfolio should earn 10% based on the portfolio’s risk profile. If the portfolio actually earns 15%, the portfolio’s alpha would be 5.0, or +5% over what was predicted in the CAPM.
 
-What Are Alpha and Beta in Finance?
+### What Are Alpha and Beta in Finance?
 Alpha measures the excess return above a benchmark for an investment, while beta is the measure of volatility, also known as risk. Active investors seek to achieve alpha returns by employing unique strategies.
 
-What Is a Good Alpha in Finance?
+### What Is a Good Alpha in Finance?
 In finance, specifically in trading and investing, what is considered a good alpha will vary depending on the goal of the investor and the risk tolerance. Generally, a good alpha is one that is greater than zero when adjusted for risk.
 
-What Does a Negative Alpha Mean in Stocks?
+### What Does a Negative Alpha Mean in Stocks?
 A negative alpha in stocks means that a stock is underperforming the benchmark when adjusted for risk. If an investor is intending to match or outperform a specific benchmark and their investment portfolio is performing under that rate, then their alpha is negative.
 
-The Bottom Line
+### The Bottom Line
 Alpha measures the excess return an investment earns above its benchmark after adjusting for risk, making it a key metric for evaluating performance. Active managers strive to generate alpha, often using strategies reflected in measures like Jensen's alpha, which applies the CAPM framework.
 
 Consistently achieving alpha is difficult; studies show fewer than 10% of active funds outperform over long periods, especially after taxes and fees. These challenges, alongside the efficient market hypothesis, have driven some investors toward low-cost passive funds and robo-advisors. Investors should weigh fees carefully, as they can erode gains attributed to alpha.
@@ -87,18 +82,21 @@ Beta effectively describes the activity of a security’s returns as it responds
 A security’s beta is calculated by dividing the product of the covariance of the security’s returns and the market’s returns by the variance of the market’s returns over a specified period. The calculation helps investors understand whether a stock moves in the same direction as the rest of the market. It also provides insights into how volatile or how risky a stock is relative to the rest of the market.
 
 The market used as a benchmark should be related to the stock for beta to provide useful insight. The beta of a bond exchange-traded fund (ETF) relative to the S&P 500 would not be helpful to an investor, because bonds and stocks are too distinct to compare.
-Beta coefficient(β)= 
-Variance(R m)Covariance(R_e,R_m)
+Beta coefficient(β)= $Variance(R_m)Covariance(R_e,R_m)$
 ​where:
-R_e = the return on an individual stock
-R_m = the return on the overall market
+$R_e$ = the return on an individual stock
+$R_m$ = the return on the overall market
 Covariance = how changes in a stock’s returns are related to changes in the market’s returns
 Variance = how far the market’s data points spread out from their average value
 ## Beta Values
-Beta equal to 1: A stock with a beta of 1.0 means that its price activity correlates with the market. Adding a stock to a portfolio with a beta of 1.0 doesn’t add any risk to the portfolio, but it also doesn’t increase the likelihood that the portfolio will provide an excess return.
-Beta less than 1: A beta value less than 1.0 means that the security is less volatile than the market. Including this stock in a portfolio makes it less risky than the same portfolio without the stock. Utility stocks often have low betas because they move more slowly than market averages.
-Beta greater than 1: A beta greater than 1.0 indicates that the security’s price is theoretically more volatile than the market. If a stock’s beta is 1.2, it is assumed to be 20% more volatile than the market. Technology stocks tend to have higher betas than the market benchmark. Adding the stock to a portfolio will increase the portfolio’s risk but may also increase its return.
-Negative beta: A beta of -1.0 means that the stock is inversely correlated to the market benchmark on a 1:1 basis. Put options and inverse ETFs are designed to have negative betas. There are also a few industry groups, like gold miners, where a negative beta is common.
+### Beta equal to 1:
+A stock with a beta of 1.0 means that its price activity correlates with the market. Adding a stock to a portfolio with a beta of 1.0 doesn’t add any risk to the portfolio, but it also doesn’t increase the likelihood that the portfolio will provide an excess return.
+### Beta less than 1:
+A beta value less than 1.0 means that the security is less volatile than the market. Including this stock in a portfolio makes it less risky than the same portfolio without the stock. Utility stocks often have low betas because they move more slowly than market averages.
+### Beta greater than 1:
+A beta greater than 1.0 indicates that the security’s price is theoretically more volatile than the market. If a stock’s beta is 1.2, it is assumed to be 20% more volatile than the market. Technology stocks tend to have higher betas than the market benchmark. Adding the stock to a portfolio will increase the portfolio’s risk but may also increase its return.
+### Negative beta:
+A beta of -1.0 means that the stock is inversely correlated to the market benchmark on a 1:1 basis. Put options and inverse ETFs are designed to have negative betas. There are also a few industry groups, like gold miners, where a negative beta is common.
 ​## The Bottom Line
 Beta (β) is the second letter of the Greek alphabet. It’s used to measure the volatility of a security or portfolio compared to the broader market, such as the S&P 500, which has a beta of 1.0. A beta of 1.0 shows that a stock has been as volatile as the broader market. Betas larger than 1.0 indicate greater volatility, and betas less than 1.0 indicate less volatility.
 
