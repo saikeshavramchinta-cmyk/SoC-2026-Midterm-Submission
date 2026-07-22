@@ -1,5 +1,5 @@
 **Reading Assignment**
-**Capital Asset Pricing Model(CAPM)**
+## Capital Asset Pricing Model(CAPM)
 ## What Is the Capital Asset Pricing Model (CAPM)?
 The capital asset pricing model (CAPM) describes the relationship between systematic risk, or the general perils of investing, and expected return for assets, particularly stocks. It is a finance model that establishes a linear relationship between the required return on an investment and risk.
 
