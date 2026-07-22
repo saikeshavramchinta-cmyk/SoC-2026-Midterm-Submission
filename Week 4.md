@@ -97,8 +97,45 @@ A beta value less than 1.0 means that the security is less volatile than the mar
 A beta greater than 1.0 indicates that the security’s price is theoretically more volatile than the market. If a stock’s beta is 1.2, it is assumed to be 20% more volatile than the market. Technology stocks tend to have higher betas than the market benchmark. Adding the stock to a portfolio will increase the portfolio’s risk but may also increase its return.
 ### Negative beta:
 A beta of -1.0 means that the stock is inversely correlated to the market benchmark on a 1:1 basis. Put options and inverse ETFs are designed to have negative betas. There are also a few industry groups, like gold miners, where a negative beta is common.
-​## The Bottom Line
+## The Bottom Line
 Beta (β) is the second letter of the Greek alphabet. It’s used to measure the volatility of a security or portfolio compared to the broader market, such as the S&P 500, which has a beta of 1.0. A beta of 1.0 shows that a stock has been as volatile as the broader market. Betas larger than 1.0 indicate greater volatility, and betas less than 1.0 indicate less volatility.
+
+## Market Neutral Strategies
+
+What Is Market Neutral?
+A market-neutral strategy is a type of investment strategy undertaken by an investor or an investment manager that seeks to profit from both increasing and decreasing prices in one or more markets while attempting to completely avoid some specific form of market risk.
+
+Market-neutral strategies are often attained by taking matching long and short positions in different stocks to increase the return from making good stock selections and decreasing the return from broad market movements.
+
+## In-Depth Look at Market Neutral Strategies
+There is no single way to implement a market-neutral strategy. Beyond the method mentioned above, market-neutral strategists may also use other tools such as merger arbitrage, shorting sectors, and so on.
+
+Managers who hold a market-neutral position are able to exploit any momentum in the market. Hedge funds commonly take a market-neutral position because they are focused on absolute as opposed to relative returns. A market-neutral position might mean holding 50% long and 50% short positions in industries like oil and gas or in the broader market.
+
+Often, market-neutral strategies are likened to long/short equity funds, though they are distinctly different. Long/short funds simply aim to vary their long and short stock exposures across industries, taking advantage of undervalued and overvalued opportunities.
+
+Market-neutral strategies, on the other hand, focus on making concentrated bets based on pricing discrepancies with the main goal of achieving a zero beta versus its appropriate market index to hedge out systematic risk. Although market-neutral funds use long and short positions, they have different goals than regular long/short funds.
+
+## Exploring Different Market-Neutral Strategies
+There are two main market-neutral strategies that fund managers employ: fundamental arbitrage and statistical arbitrage. Fundamental market-neutral investors rely on fundamental analysis to predict stock price changes, instead of using algorithms.
+
+Statistical arbitrage market-neutral funds use algorithms and quantitative methods to uncover price discrepancies in stocks based on historical data. Then, based on these quantitative results, the managers will place trades on stocks that are likely to revert to their price means.
+
+A major benefit of market-neutral funds is their focus on building portfolios that reduce market risk. In times of high market volatility, historical results have shown that market-neutral funds are likely to outperform funds using other certain strategies.
+
+Except for pure short-selling strategies, market-neutral strategies historically have the lowest positive correlations to the market specifically because they place specific bets on stock price convergences while hedging away the general market risk.
+
+### Case Study: Vanguard’s Market Neutral Investor Fund
+As a market-neutral strategy, the Vanguard Market Neutral Investor Shares Fund (VMNFX) is a liquid alt fund using long and short strategies, unlike other mutual funds that stick to long positions. The fund's strategy aims to minimize the impact of the stock market on its returns, meaning the fund's returns may vary widely from those of the market.
+
+
+Although most funds that short stocks, such as hedge funds, do not disclose their short holdings because SEC rules do not require them to, the Vanguard Market Neutral Investor Shares does publish its shorts.
+
+It chooses short positions by evaluating companies in five categories: growth, quality, management decisions, sentiment, and valuation. Then, it creates a composite expected return for all of the stocks in its universe and shorts those with the lowest scores.
+
+Investing in market-neutral specific funds is typically for high-net-worth individuals. For example, VMNFX has a minimum investment amount of $50,000.
+
+Other funds may have extremely high expense ratios, well above the investment ratios of passively managed funds.
 
 
 ​
