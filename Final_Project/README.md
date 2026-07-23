@@ -1,4 +1,6 @@
 **Note: Ignore the Project_Codes folder completely for the final project because I have modified the codes so as to get better results**
+
+## Results of the strategy is shown in the video
 ## Each Python File Overview and Implementation
 ### 1. indicators.py
 This file is the math department. It takes raw price data and transforms it into useful statistics. Instead of cluttering our main logic with raw calculations, this file cleanly generates the Moving Averages, MACD, RSI, and Bollinger Bands. If you ever want to add a new indicator in the future, it goes here.
