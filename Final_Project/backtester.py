@@ -1,13 +1,49 @@
+import numpy as np
 import pandas as pd
 from signal_generator import generate_signals
 from risk_management import (
-    run_vectorized_backtest, 
     generate_performance_metrics, 
-    calculate_kelly_criterion, 
     calc_returns, 
     get_beta, 
     get_hedge_ratio
 )
+
+def run_vectorized_backtest(df, stop_loss_pct=0.08):
+    df['Position'] = df['Signal'].replace(0, np.nan).ffill().fillna(0)
+    df['Position'] = np.where(df['Position'] == -1, 0, df['Position'])
+    
+    df['Entry_Price'] = np.where((df['Position'] == 1) & (df['Position'].shift(1) == 0), df['Close'], np.nan)
+    df['Entry_Price'] = df['Entry_Price'].ffill()
+    df['Entry_Price'] = np.where(df['Position'] == 0, np.nan, df['Entry_Price'])
+    
+    df['Trade_Drawdown'] = (df['Close'] - df['Entry_Price']) / df['Entry_Price']
+    
+    stop_loss_cond = df['Trade_Drawdown'] <= -stop_loss_pct
+    df.loc[stop_loss_cond, 'Signal'] = -1 
+    
+    df['Position'] = df['Signal'].replace(0, np.nan).ffill().fillna(0)
+    df['Position'] = np.where(df['Position'] == -1, 0, df['Position'])
+    
+    df['Position'] = df['Position'].shift(1).fillna(0)
+    df['Market_Returns'] = df['Close'].pct_change()
+    df['Strategy_Returns'] = df['Position'] * df['Market_Returns']
+    return df
+
+def calculate_kelly_criterion(strategy_returns, fraction=0.25):
+    active_returns = strategy_returns[strategy_returns != 0].dropna()
+    if active_returns.empty: return 0.0, 0.0
+    
+    win_rate = len(active_returns[active_returns > 0]) / len(active_returns)
+    avg_win = active_returns[active_returns > 0].mean() if not active_returns[active_returns > 0].empty else 0
+    avg_loss = abs(active_returns[active_returns < 0].mean()) if not active_returns[active_returns < 0].empty else 1e-9
+    win_loss_ratio = avg_win / avg_loss
+    
+    if win_loss_ratio == 0: return 0.0, 0.0
+    
+    full_kelly = win_rate - ((1 - win_rate) / win_loss_ratio)
+    full_kelly = max(0.0, min(full_kelly, 1.0))
+    fractional_kelly = full_kelly * fraction
+    return full_kelly, fractional_kelly
 
 def main():
     asset_file = 'asset_data.csv'
